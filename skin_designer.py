@@ -12,60 +12,60 @@ OUTPUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "generated
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 THEMES = [
-    {"name":"Inferno",   "style":"armor",   "weapon":"sword",   "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(80,5,5),    "hl":(220,60,0),   "bd":(120,10,0),  "bl":(255,80,0),   "rd":(60,0,0),    "rl":(200,40,0),   "ac":(255,160,0), "hi":(255,230,80), "s":(155,75,45),  "pt":(255,70,0),   "fl":(255,50,50)},
-    {"name":"Void",      "style":"robe",    "weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(10,0,25),   "hl":(100,0,180),  "bd":(15,0,35),   "bl":(140,0,220),  "rd":(8,0,20),    "rl":(80,0,150),   "ac":(180,80,255),"hi":(220,160,255),"s":(95,55,75),   "pt":(170,0,255),  "fl":(195,70,255)},
-    {"name":"Frost",     "style":"royal",   "weapon":"staff",   "head_anim":"ice_crown",   "body_anim":"snowflakes",   "hd":(5,20,60),   "hl":(0,120,200),  "bd":(8,30,80),   "bl":(0,160,230),  "rd":(5,15,50),   "rl":(0,100,170),  "ac":(100,200,255),"hi":(200,240,255),"s":(130,165,195),"pt":(90,195,255), "fl":(170,235,255)},
-    {"name":"Toxic",     "style":"tattered","weapon":"axe",     "head_anim":"bubble_crown","body_anim":"drip_dots",    "hd":(5,25,5),    "hl":(30,160,30),  "bd":(8,35,8),    "bl":(50,200,50),  "rd":(5,20,5),    "rl":(30,140,30),  "ac":(150,255,50),"hi":(200,255,100),"s":(95,135,75),  "pt":(90,250,45),  "fl":(140,255,70)},
-    {"name":"Gold",      "style":"royal",   "weapon":"hammer",  "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(50,30,0),   "hl":(180,120,0),  "bd":(70,45,0),   "bl":(220,160,0),  "rd":(40,25,0),   "rl":(160,100,0),  "ac":(255,200,0), "hi":(255,230,100),"s":(175,115,55), "pt":(255,190,0),  "fl":(255,170,0)},
-    {"name":"Crimson",   "style":"armor",   "weapon":"sword",   "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(40,0,0),    "hl":(160,0,30),   "bd":(55,0,0),    "bl":(200,0,50),   "rd":(30,0,0),    "rl":(140,0,20),   "ac":(255,60,80), "hi":(255,160,180),"s":(155,75,75),  "pt":(255,0,70),   "fl":(255,90,140)},
-    {"name":"Ocean",     "style":"suit",    "weapon":"trident", "head_anim":"wave_crown",  "body_anim":"bubble_rise",  "hd":(0,12,40),   "hl":(0,80,140),   "bd":(0,18,55),   "bl":(0,110,180),  "rd":(0,10,35),   "rl":(0,70,120),   "ac":(0,180,255), "hi":(120,220,255),"s":(75,125,155), "pt":(0,175,255),  "fl":(70,215,255)},
-    {"name":"Neon",      "style":"ninja",   "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(5,0,20),    "hl":(0,200,160),  "bd":(8,0,25),    "bl":(0,240,180),  "rd":(5,0,15),    "rl":(0,180,140),  "ac":(180,255,0), "hi":(220,255,80), "s":(95,195,175), "pt":(0,255,175),  "fl":(175,255,0)},
-    {"name":"Sakura",    "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"petal_fall",   "hd":(60,10,30),  "hl":(180,60,100), "bd":(75,15,40),  "bl":(220,90,130), "rd":(50,8,25),   "rl":(160,50,80),  "ac":(255,160,190),"hi":(255,210,225),"s":(195,135,125),"pt":(255,140,175),"fl":(255,175,205)},
-    {"name":"Phantom",   "style":"tattered","weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(20,0,35),   "hl":(120,0,155),  "bd":(28,0,48),   "bl":(160,0,200),  "rd":(15,0,28),   "rl":(100,0,130),  "ac":(200,100,255),"hi":(230,170,255),"s":(115,75,135), "pt":(195,45,255), "fl":(215,115,255)},
-    {"name":"Lava",      "style":"armor",   "weapon":"hammer",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(30,5,0),    "hl":(190,60,0),   "bd":(45,8,0),    "bl":(230,90,0),   "rd":(25,4,0),    "rl":(170,50,0),   "ac":(255,180,0), "hi":(255,220,80), "s":(175,95,45),  "pt":(255,115,0),  "fl":(255,75,0)},
-    {"name":"Emerald",   "style":"royal",   "weapon":"axe",     "head_anim":"leaf_crown",  "body_anim":"leaf_swirl",   "hd":(0,28,12),   "hl":(0,130,60),   "bd":(0,38,18),   "bl":(0,170,80),   "rd":(0,22,10),   "rl":(0,110,50),   "ac":(80,240,140),"hi":(160,255,200),"s":(75,155,95),  "pt":(0,215,95),   "fl":(90,250,145)},
-    {"name":"Celestial", "style":"suit",    "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"star_orbit",   "hd":(0,5,38),    "hl":(60,60,180),  "bd":(0,8,50),    "bl":(80,80,210),  "rd":(0,4,30),    "rl":(50,50,160),  "ac":(160,160,255),"hi":(210,210,255),"s":(115,115,175),"pt":(115,115,255),"fl":(175,195,255)},
-    {"name":"Plague",    "style":"tattered","weapon":"axe",     "head_anim":"bubble_crown","body_anim":"drip_dots",    "hd":(12,20,0),   "hl":(80,130,0),   "bd":(18,28,0),   "bl":(100,160,0),  "rd":(10,16,0),   "rl":(70,110,0),   "ac":(160,220,0), "hi":(200,255,80), "s":(115,135,55), "pt":(145,215,0),  "fl":(175,250,45)},
-    {"name":"Specter",   "style":"ninja",   "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(25,25,32),  "hl":(100,100,140),"bd":(35,35,45),  "bl":(130,130,170),"rd":(20,20,28),  "rl":(90,90,120),  "ac":(180,180,230),"hi":(220,220,255),"s":(155,155,175),"pt":(175,175,255),"fl":(215,215,255)},
+    {"name":"Inferno",   "style":"armor",   "weapon":"sword",   "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(80,5,5),    "hl":(220,60,0),   "bd":(120,10,0),  "bl":(255,80,0),   "rd":(60,0,0),    "rl":(200,40,0),   "ac":(255,160,0), "hi":(255,230,80), "s":(155,75,45),  "pt":(255,70,0),   "fl":(255,50,50),"border":"fire_border","anim1":"hellfire","anim2":"lightning"},
+    {"name":"Void",      "style":"robe",    "weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(10,0,25),   "hl":(100,0,180),  "bd":(15,0,35),   "bl":(140,0,220),  "rd":(8,0,20),    "rl":(80,0,150),   "ac":(180,80,255),"hi":(220,160,255),"s":(95,55,75),   "pt":(170,0,255),  "fl":(195,70,255),"border":"void_border","anim1":"wisps","anim2":"smoke"},
+    {"name":"Frost",     "style":"royal",   "weapon":"staff",   "head_anim":"ice_crown",   "body_anim":"snowflakes",   "hd":(5,20,60),   "hl":(0,120,200),  "bd":(8,30,80),   "bl":(0,160,230),  "rd":(5,15,50),   "rl":(0,100,170),  "ac":(100,200,255),"hi":(200,240,255),"s":(130,165,195),"pt":(90,195,255), "fl":(170,235,255),"border":"ice_border","anim1":"crystal","anim2":"aurora"},
+    {"name":"Toxic",     "style":"tattered","weapon":"axe",     "head_anim":"bubble_crown","body_anim":"drip_dots",    "hd":(5,25,5),    "hl":(30,160,30),  "bd":(8,35,8),    "bl":(50,200,50),  "rd":(5,20,5),    "rl":(30,140,30),  "ac":(150,255,50),"hi":(200,255,100),"s":(95,135,75),  "pt":(90,250,45),  "fl":(140,255,70),"border":"nature_border","anim1":"smoke","anim2":"wisps"},
+    {"name":"Gold",      "style":"royal",   "weapon":"hammer",  "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(50,30,0),   "hl":(180,120,0),  "bd":(70,45,0),   "bl":(220,160,0),  "rd":(40,25,0),   "rl":(160,100,0),  "ac":(255,200,0), "hi":(255,230,100),"s":(175,115,55), "pt":(255,190,0),  "fl":(255,170,0),"border":"gold_border","anim1":"sand","anim2":"lightning"},
+    {"name":"Crimson",   "style":"armor",   "weapon":"sword",   "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(40,0,0),    "hl":(160,0,30),   "bd":(55,0,0),    "bl":(200,0,50),   "rd":(30,0,0),    "rl":(140,0,20),   "ac":(255,60,80), "hi":(255,160,180),"s":(155,75,75),  "pt":(255,0,70),   "fl":(255,90,140),"border":"fire_border","anim1":"blood","anim2":"hellfire"},
+    {"name":"Ocean",     "style":"suit",    "weapon":"trident", "head_anim":"wave_crown",  "body_anim":"bubble_rise",  "hd":(0,12,40),   "hl":(0,80,140),   "bd":(0,18,55),   "bl":(0,110,180),  "rd":(0,10,35),   "rl":(0,70,120),   "ac":(0,180,255), "hi":(120,220,255),"s":(75,125,155), "pt":(0,175,255),  "fl":(70,215,255),"border":"electric_border","anim1":"aurora","anim2":"wisps"},
+    {"name":"Neon",      "style":"ninja",   "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(5,0,20),    "hl":(0,200,160),  "bd":(8,0,25),    "bl":(0,240,180),  "rd":(5,0,15),    "rl":(0,180,140),  "ac":(180,255,0), "hi":(220,255,80), "s":(95,195,175), "pt":(0,255,175),  "fl":(175,255,0),"border":"electric_border","anim1":"lightning","anim2":"crystal"},
+    {"name":"Sakura",    "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"petal_fall",   "hd":(60,10,30),  "hl":(180,60,100), "bd":(75,15,40),  "bl":(220,90,130), "rd":(50,8,25),   "rl":(160,50,80),  "ac":(255,160,190),"hi":(255,210,225),"s":(195,135,125),"pt":(255,140,175),"fl":(255,175,205),"border":"nature_border","anim1":"wisps","anim2":"aurora"},
+    {"name":"Phantom",   "style":"tattered","weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(20,0,35),   "hl":(120,0,155),  "bd":(28,0,48),   "bl":(160,0,200),  "rd":(15,0,28),   "rl":(100,0,130),  "ac":(200,100,255),"hi":(230,170,255),"s":(115,75,135), "pt":(195,45,255), "fl":(215,115,255),"border":"void_border","anim1":"wisps","anim2":"smoke"},
+    {"name":"Lava",      "style":"armor",   "weapon":"hammer",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(30,5,0),    "hl":(190,60,0),   "bd":(45,8,0),    "bl":(230,90,0),   "rd":(25,4,0),    "rl":(170,50,0),   "ac":(255,180,0), "hi":(255,220,80), "s":(175,95,45),  "pt":(255,115,0),  "fl":(255,75,0),"border":"fire_border","anim1":"hellfire","anim2":"blood"},
+    {"name":"Emerald",   "style":"royal",   "weapon":"axe",     "head_anim":"leaf_crown",  "body_anim":"leaf_swirl",   "hd":(0,28,12),   "hl":(0,130,60),   "bd":(0,38,18),   "bl":(0,170,80),   "rd":(0,22,10),   "rl":(0,110,50),   "ac":(80,240,140),"hi":(160,255,200),"s":(75,155,95),  "pt":(0,215,95),   "fl":(90,250,145),"border":"nature_border","anim1":"aurora","anim2":"wisps"},
+    {"name":"Celestial", "style":"suit",    "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"star_orbit",   "hd":(0,5,38),    "hl":(60,60,180),  "bd":(0,8,50),    "bl":(80,80,210),  "rd":(0,4,30),    "rl":(50,50,160),  "ac":(160,160,255),"hi":(210,210,255),"s":(115,115,175),"pt":(115,115,255),"fl":(175,195,255),"border":"gold_border","anim1":"aurora","anim2":"crystal"},
+    {"name":"Plague",    "style":"tattered","weapon":"axe",     "head_anim":"bubble_crown","body_anim":"drip_dots",    "hd":(12,20,0),   "hl":(80,130,0),   "bd":(18,28,0),   "bl":(100,160,0),  "rd":(10,16,0),   "rl":(70,110,0),   "ac":(160,220,0), "hi":(200,255,80), "s":(115,135,55), "pt":(145,215,0),  "fl":(175,250,45),"border":"nature_border","anim1":"smoke","anim2":"blood"},
+    {"name":"Specter",   "style":"ninja",   "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(25,25,32),  "hl":(100,100,140),"bd":(35,35,45),  "bl":(130,130,170),"rd":(20,20,28),  "rl":(90,90,120),  "ac":(180,180,230),"hi":(220,220,255),"s":(155,155,175),"pt":(175,175,255),"fl":(215,215,255),"border":"void_border","anim1":"wisps","anim2":"lightning"},
     # ── Seasonal ──
-    {"name":"Halloween", "style":"tattered","weapon":"scythe",  "head_anim":"fire_crown",  "body_anim":"drip_dots",    "hd":(5,3,0),     "hl":(57,40,24),   "bd":(4,3,0),     "bl":(95,78,39),   "rd":(0,0,0),     "rl":(176,204,41), "ac":(255,120,0), "hi":(200,230,40), "s":(84,68,30),   "pt":(255,100,0),  "fl":(180,220,0)},
-    {"name":"Xmas",      "style":"royal",   "weapon":"staff",   "head_anim":"ice_crown",   "body_anim":"snowflakes",   "hd":(4,5,6),     "hl":(57,78,95),   "bd":(4,5,6),     "bl":(213,234,237),"rd":(4,5,6),     "rl":(232,241,250),"ac":(180,220,255),"hi":(255,255,255),"s":(200,160,140),"pt":(160,210,255),"fl":(255,255,255)},
-    {"name":"Easter",    "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"petal_fall",   "hd":(20,20,20),  "hl":(152,80,153), "bd":(30,30,30),  "bl":(153,149,80), "rd":(0,0,0),     "rl":(255,255,232),"ac":(255,216,124),"hi":(255,255,200),"s":(200,160,130),"pt":(200,100,200),"fl":(255,220,100)},
-    {"name":"Lunar",     "style":"armor",   "weapon":"sword",   "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(60,2,5),    "hl":(176,24,44),  "bd":(40,1,3),    "bl":(180,20,35),  "rd":(20,1,2),    "rl":(230,230,230),"ac":(255,200,0), "hi":(255,240,120),"s":(180,120,80), "pt":(255,180,0),  "fl":(255,220,50)},
-    {"name":"Valentines","style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"void_orbs",    "hd":(27,2,39),   "hl":(59,38,111),  "bd":(27,2,39),   "bl":(77,50,146),  "rd":(20,0,60),   "rl":(43,0,171),   "ac":(255,80,150),"hi":(255,180,220),"s":(180,120,140),"pt":(255,60,120),  "fl":(255,150,200)},
-    {"name":"Patrick",   "style":"royal",   "weapon":"staff",   "head_anim":"leaf_crown",  "body_anim":"leaf_swirl",   "hd":(20,60,25),  "hl":(70,147,85),  "bd":(20,60,25),  "bl":(255,255,255),"rd":(15,50,20),  "rl":(255,231,47), "ac":(80,180,60), "hi":(255,240,50), "s":(160,180,100),"pt":(60,180,40),   "fl":(255,220,0)},
+    {"name":"Halloween", "style":"tattered","weapon":"scythe",  "head_anim":"fire_crown",  "body_anim":"drip_dots",    "hd":(5,3,0),     "hl":(57,40,24),   "bd":(4,3,0),     "bl":(95,78,39),   "rd":(0,0,0),     "rl":(176,204,41), "ac":(255,120,0), "hi":(200,230,40), "s":(84,68,30),   "pt":(255,100,0),  "fl":(180,220,0),"border":"fire_border","anim1":"blood","anim2":"wisps"},
+    {"name":"Xmas",      "style":"royal",   "weapon":"staff",   "head_anim":"ice_crown",   "body_anim":"snowflakes",   "hd":(4,5,6),     "hl":(57,78,95),   "bd":(4,5,6),     "bl":(213,234,237),"rd":(4,5,6),     "rl":(232,241,250),"ac":(180,220,255),"hi":(255,255,255),"s":(200,160,140),"pt":(160,210,255),"fl":(255,255,255),"border":"ice_border","anim1":"crystal","anim2":"aurora"},
+    {"name":"Easter",    "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"petal_fall",   "hd":(20,20,20),  "hl":(152,80,153), "bd":(30,30,30),  "bl":(153,149,80), "rd":(0,0,0),     "rl":(255,255,232),"ac":(255,216,124),"hi":(255,255,200),"s":(200,160,130),"pt":(200,100,200),"fl":(255,220,100),"border":"nature_border","anim1":"wisps","anim2":"aurora"},
+    {"name":"Lunar",     "style":"armor",   "weapon":"sword",   "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(60,2,5),    "hl":(176,24,44),  "bd":(40,1,3),    "bl":(180,20,35),  "rd":(20,1,2),    "rl":(230,230,230),"ac":(255,200,0), "hi":(255,240,120),"s":(180,120,80), "pt":(255,180,0),  "fl":(255,220,50),"border":"gold_border","anim1":"sand","anim2":"lightning"},
+    {"name":"Valentines","style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"void_orbs",    "hd":(27,2,39),   "hl":(59,38,111),  "bd":(27,2,39),   "bl":(77,50,146),  "rd":(20,0,60),   "rl":(43,0,171),   "ac":(255,80,150),"hi":(255,180,220),"s":(180,120,140),"pt":(255,60,120),  "fl":(255,150,200),"border":"void_border","anim1":"wisps","anim2":"blood"},
+    {"name":"Patrick",   "style":"royal",   "weapon":"staff",   "head_anim":"leaf_crown",  "body_anim":"leaf_swirl",   "hd":(20,60,25),  "hl":(70,147,85),  "bd":(20,60,25),  "bl":(255,255,255),"rd":(15,50,20),  "rl":(255,231,47), "ac":(80,180,60), "hi":(255,240,50), "s":(160,180,100),"pt":(60,180,40),   "fl":(255,220,0),"border":"nature_border","anim1":"aurora","anim2":"sand"},
     # ── v1.01 Themes ──
-    {"name":"Shadow",    "style":"ninja",   "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(5,5,8),     "hl":(30,30,50),   "bd":(8,8,12),    "bl":(50,50,80),   "rd":(3,3,5),     "rl":(20,20,35),   "ac":(80,80,120), "hi":(160,160,220),"s":(60,60,80),   "pt":(100,100,180),"fl":(120,120,200)},
-    {"name":"Magma",     "style":"armor",   "weapon":"hammer",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(60,5,0),    "hl":(200,40,0),   "bd":(80,8,0),    "bl":(255,60,0),   "rd":(40,3,0),    "rl":(220,30,0),   "ac":(255,140,0), "hi":(255,220,50), "s":(180,90,40),  "pt":(255,80,0),   "fl":(255,160,0)},
-    {"name":"Arctic",    "style":"royal",   "weapon":"staff",   "head_anim":"ice_crown",   "body_anim":"snowflakes",   "hd":(15,25,40),  "hl":(60,100,150), "bd":(20,35,55),  "bl":(140,190,230),"rd":(10,20,35),  "rl":(200,220,240),"ac":(160,210,255),"hi":(240,250,255),"s":(160,190,210),"pt":(120,180,255),"fl":(200,230,255)},
-    {"name":"Demon",     "style":"tattered","weapon":"axe",     "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(40,0,0),    "hl":(120,0,0),    "bd":(50,0,5),    "bl":(160,0,10),   "rd":(30,0,0),    "rl":(100,0,5),    "ac":(220,0,0),   "hi":(255,80,0),   "s":(140,60,50),  "pt":(200,0,0),    "fl":(255,40,0)},
-    {"name":"Galaxy",    "style":"robe",    "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"star_orbit",   "hd":(5,0,20),    "hl":(40,0,80),    "bd":(8,0,30),    "bl":(80,20,140),  "rd":(3,0,15),    "rl":(50,10,100),  "ac":(180,100,255),"hi":(220,180,255),"s":(100,80,140), "pt":(160,80,255), "fl":(200,150,255)},
-    {"name":"Cyber",     "style":"suit",    "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(0,20,20),   "hl":(0,100,100),  "bd":(0,25,25),   "bl":(0,160,160),  "rd":(0,15,15),   "rl":(0,120,120),  "ac":(0,220,200), "hi":(100,255,240),"s":(80,160,150), "pt":(0,200,180),  "fl":(50,255,220)},
-    {"name":"Storm",     "style":"armor",   "weapon":"trident", "head_anim":"wave_crown",  "body_anim":"bubble_rise",  "hd":(20,20,40),  "hl":(60,60,120),  "bd":(25,25,50),  "bl":(100,100,180),"rd":(15,15,30),  "rl":(80,80,150),  "ac":(150,150,255),"hi":(220,220,255),"s":(120,120,160),"pt":(130,130,255),"fl":(180,180,255)},
-    {"name":"Nature",    "style":"royal",   "weapon":"staff",   "head_anim":"leaf_crown",  "body_anim":"leaf_swirl",   "hd":(10,30,5),   "hl":(40,100,20),  "bd":(15,40,8),   "bl":(80,160,40),  "rd":(8,25,4),    "rl":(60,130,30),  "ac":(120,200,60),"hi":(200,240,120),"s":(120,160,80), "pt":(100,200,50), "fl":(180,230,100)},
-    {"name":"Abyssal",   "style":"robe",    "weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(0,5,15),    "hl":(0,20,50),    "bd":(0,8,20),    "bl":(0,40,80),    "rd":(0,4,12),    "rl":(0,25,60),    "ac":(0,80,160),  "hi":(0,160,220),  "s":(40,80,120),  "pt":(0,100,200),  "fl":(0,140,200)},
-    {"name":"Prism",     "style":"suit",    "weapon":"sword",   "head_anim":"star_crown",  "body_anim":"coin_sparkle", "hd":(30,0,30),   "hl":(100,0,100),  "bd":(40,0,40),   "bl":(160,0,160),  "rd":(20,0,20),   "rl":(120,0,120),  "ac":(255,0,255), "hi":(255,180,255),"s":(160,100,160),"pt":(220,0,220),  "fl":(255,150,255)},
-    {"name":"Obsidian",  "style":"armor",   "weapon":"sword",   "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(8,8,10),    "hl":(25,25,35),   "bd":(10,10,14),  "bl":(40,40,60),   "rd":(6,6,8),     "rl":(20,20,30),   "ac":(80,80,120), "hi":(160,160,200),"s":(60,60,80),   "pt":(100,100,160),"fl":(120,120,180)},
-    {"name":"Sunrise",   "style":"royal",   "weapon":"staff",   "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(80,20,0),   "hl":(220,80,0),   "bd":(100,30,0),  "bl":(255,140,0),  "rd":(60,15,0),   "rl":(255,200,50), "ac":(255,160,0), "hi":(255,230,100),"s":(200,130,80), "pt":(255,120,0),  "fl":(255,200,50)},
-    {"name":"Midnight",  "style":"ninja",   "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(5,5,20),    "hl":(20,20,60),   "bd":(8,8,25),    "bl":(30,30,80),   "rd":(4,4,15),    "rl":(15,15,50),   "ac":(60,60,180), "hi":(120,120,255),"s":(60,60,100),  "pt":(80,80,220),  "fl":(100,100,240)},
+    {"name":"Shadow",    "style":"ninja",   "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(5,5,8),     "hl":(30,30,50),   "bd":(8,8,12),    "bl":(50,50,80),   "rd":(3,3,5),     "rl":(20,20,35),   "ac":(80,80,120), "hi":(160,160,220),"s":(60,60,80),   "pt":(100,100,180),"fl":(120,120,200),"border":"void_border","anim1":"smoke","anim2":"wisps"},
+    {"name":"Magma",     "style":"armor",   "weapon":"hammer",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(60,5,0),    "hl":(200,40,0),   "bd":(80,8,0),    "bl":(255,60,0),   "rd":(40,3,0),    "rl":(220,30,0),   "ac":(255,140,0), "hi":(255,220,50), "s":(180,90,40),  "pt":(255,80,0),   "fl":(255,160,0),"border":"fire_border","anim1":"hellfire","anim2":"blood"},
+    {"name":"Arctic",    "style":"royal",   "weapon":"staff",   "head_anim":"ice_crown",   "body_anim":"snowflakes",   "hd":(15,25,40),  "hl":(60,100,150), "bd":(20,35,55),  "bl":(140,190,230),"rd":(10,20,35),  "rl":(200,220,240),"ac":(160,210,255),"hi":(240,250,255),"s":(160,190,210),"pt":(120,180,255),"fl":(200,230,255),"border":"ice_border","anim1":"crystal","anim2":"aurora"},
+    {"name":"Demon",     "style":"tattered","weapon":"axe",     "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(40,0,0),    "hl":(120,0,0),    "bd":(50,0,5),    "bl":(160,0,10),   "rd":(30,0,0),    "rl":(100,0,5),    "ac":(220,0,0),   "hi":(255,80,0),   "s":(140,60,50),  "pt":(200,0,0),    "fl":(255,40,0),"border":"fire_border","anim1":"hellfire","anim2":"blood"},
+    {"name":"Galaxy",    "style":"robe",    "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"star_orbit",   "hd":(5,0,20),    "hl":(40,0,80),    "bd":(8,0,30),    "bl":(80,20,140),  "rd":(3,0,15),    "rl":(50,10,100),  "ac":(180,100,255),"hi":(220,180,255),"s":(100,80,140), "pt":(160,80,255), "fl":(200,150,255),"border":"void_border","anim1":"aurora","anim2":"wisps"},
+    {"name":"Cyber",     "style":"suit",    "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(0,20,20),   "hl":(0,100,100),  "bd":(0,25,25),   "bl":(0,160,160),  "rd":(0,15,15),   "rl":(0,120,120),  "ac":(0,220,200), "hi":(100,255,240),"s":(80,160,150), "pt":(0,200,180),  "fl":(50,255,220),"border":"electric_border","anim1":"lightning","anim2":"crystal"},
+    {"name":"Storm",     "style":"armor",   "weapon":"trident", "head_anim":"wave_crown",  "body_anim":"bubble_rise",  "hd":(20,20,40),  "hl":(60,60,120),  "bd":(25,25,50),  "bl":(100,100,180),"rd":(15,15,30),  "rl":(80,80,150),  "ac":(150,150,255),"hi":(220,220,255),"s":(120,120,160),"pt":(130,130,255),"fl":(180,180,255),"border":"electric_border","anim1":"lightning","anim2":"smoke"},
+    {"name":"Nature",    "style":"royal",   "weapon":"staff",   "head_anim":"leaf_crown",  "body_anim":"leaf_swirl",   "hd":(10,30,5),   "hl":(40,100,20),  "bd":(15,40,8),   "bl":(80,160,40),  "rd":(8,25,4),    "rl":(60,130,30),  "ac":(120,200,60),"hi":(200,240,120),"s":(120,160,80), "pt":(100,200,50), "fl":(180,230,100),"border":"nature_border","anim1":"aurora","anim2":"wisps"},
+    {"name":"Abyssal",   "style":"robe",    "weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(0,5,15),    "hl":(0,20,50),    "bd":(0,8,20),    "bl":(0,40,80),    "rd":(0,4,12),    "rl":(0,25,60),    "ac":(0,80,160),  "hi":(0,160,220),  "s":(40,80,120),  "pt":(0,100,200),  "fl":(0,140,200),"border":"void_border","anim1":"wisps","anim2":"smoke"},
+    {"name":"Prism",     "style":"suit",    "weapon":"sword",   "head_anim":"star_crown",  "body_anim":"coin_sparkle", "hd":(30,0,30),   "hl":(100,0,100),  "bd":(40,0,40),   "bl":(160,0,160),  "rd":(20,0,20),   "rl":(120,0,120),  "ac":(255,0,255), "hi":(255,180,255),"s":(160,100,160),"pt":(220,0,220),  "fl":(255,150,255),"border":"rainbow_border","anim1":"aurora","anim2":"crystal"},
+    {"name":"Obsidian",  "style":"armor",   "weapon":"sword",   "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(8,8,10),    "hl":(25,25,35),   "bd":(10,10,14),  "bl":(40,40,60),   "rd":(6,6,8),     "rl":(20,20,30),   "ac":(80,80,120), "hi":(160,160,200),"s":(60,60,80),   "pt":(100,100,160),"fl":(120,120,180),"border":"void_border","anim1":"smoke","anim2":"wisps"},
+    {"name":"Sunrise",   "style":"royal",   "weapon":"staff",   "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(80,20,0),   "hl":(220,80,0),   "bd":(100,30,0),  "bl":(255,140,0),  "rd":(60,15,0),   "rl":(255,200,50), "ac":(255,160,0), "hi":(255,230,100),"s":(200,130,80), "pt":(255,120,0),  "fl":(255,200,50),"border":"gold_border","anim1":"aurora","anim2":"sand"},
+    {"name":"Midnight",  "style":"ninja",   "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(5,5,20),    "hl":(20,20,60),   "bd":(8,8,25),    "bl":(30,30,80),   "rd":(4,4,15),    "rl":(15,15,50),   "ac":(60,60,180), "hi":(120,120,255),"s":(60,60,100),  "pt":(80,80,220),  "fl":(100,100,240),"border":"electric_border","anim1":"lightning","anim2":"wisps"},
     # ── v1.02 Themes ──
-    {"name":"Aurora",    "style":"royal",   "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"aurora_wave",  "hd":(0,20,40),   "hl":(0,180,160),  "bd":(0,30,55),   "bl":(0,220,200),  "rd":(0,15,35),   "rl":(80,255,220), "ac":(0,255,200), "hi":(180,255,240),"s":(80,180,160), "pt":(0,220,180),  "fl":(100,255,220)},
-    {"name":"Infernal",  "style":"armor",   "weapon":"trident", "head_anim":"fire_crown",  "body_anim":"hellfire_rise","hd":(50,0,0),    "hl":(180,0,0),    "bd":(70,5,0),    "bl":(220,20,0),   "rd":(35,0,0),    "rl":(160,0,0),    "ac":(255,40,0),  "hi":(255,160,0),  "s":(160,70,40),  "pt":(255,20,0),   "fl":(255,100,0)},
-    {"name":"Crystal",   "style":"suit",    "weapon":"sword",   "head_anim":"ice_crown",   "body_anim":"crystal_shards","hd":(20,30,50),  "hl":(140,180,220),"bd":(25,40,65),  "bl":(180,210,240),"rd":(15,25,45),  "rl":(220,235,255),"ac":(160,200,255),"hi":(240,248,255),"s":(160,185,210),"pt":(130,180,255),"fl":(200,230,255)},
+    {"name":"Aurora",    "style":"royal",   "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"aurora_wave",  "hd":(0,20,40),   "hl":(0,180,160),  "bd":(0,30,55),   "bl":(0,220,200),  "rd":(0,15,35),   "rl":(80,255,220), "ac":(0,255,200), "hi":(180,255,240),"s":(80,180,160), "pt":(0,220,180),  "fl":(100,255,220),"border":"ice_border","anim1":"aurora","anim2":"wisps"},
+    {"name":"Infernal",  "style":"armor",   "weapon":"trident", "head_anim":"fire_crown",  "body_anim":"hellfire_rise","hd":(50,0,0),    "hl":(180,0,0),    "bd":(70,5,0),    "bl":(220,20,0),   "rd":(35,0,0),    "rl":(160,0,0),    "ac":(255,40,0),  "hi":(255,160,0),  "s":(160,70,40),  "pt":(255,20,0),   "fl":(255,100,0),"border":"fire_border","anim1":"hellfire","anim2":"blood"},
+    {"name":"Crystal",   "style":"suit",    "weapon":"sword",   "head_anim":"ice_crown",   "body_anim":"crystal_shards","hd":(20,30,50),  "hl":(140,180,220),"bd":(25,40,65),  "bl":(180,210,240),"rd":(15,25,45),  "rl":(220,235,255),"ac":(160,200,255),"hi":(240,248,255),"s":(160,185,210),"pt":(130,180,255),"fl":(200,230,255),"border":"ice_border","anim1":"crystal","anim2":"aurora"},
     # ── v1.03 Themes ──
-    {"name":"Wraith",    "style":"tattered","weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(5,5,10),    "hl":(60,60,80),   "bd":(8,8,15),    "bl":(90,90,120),  "rd":(3,3,8),     "rl":(50,50,70),   "ac":(150,150,200),"hi":(220,220,255),"s":(80,80,100),  "pt":(180,180,240),"fl":(200,200,255)},
-    {"name":"Molten",    "style":"armor",   "weapon":"hammer",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(70,15,0),   "hl":(230,80,0),   "bd":(90,20,0),   "bl":(255,110,0),  "rd":(50,10,0),   "rl":(200,60,0),   "ac":(255,140,0), "hi":(255,220,80), "s":(190,100,50), "pt":(255,100,0),  "fl":(255,180,0)},
-    {"name":"Blossom",   "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"petal_fall",   "hd":(50,5,25),   "hl":(200,80,120), "bd":(65,10,35),  "bl":(240,120,160),"rd":(40,4,20),   "rl":(255,180,210),"ac":(255,120,170),"hi":(255,220,235),"s":(200,140,155),"pt":(255,100,150),"fl":(255,200,220)},
-    {"name":"Thunder",   "style":"armor",   "weapon":"trident", "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(15,15,40),  "hl":(80,80,180),  "bd":(20,20,55),  "bl":(120,120,220),"rd":(10,10,30),  "rl":(160,160,255),"ac":(180,180,255),"hi":(240,240,255),"s":(120,120,170),"pt":(150,150,255),"fl":(200,200,255)},
-    {"name":"Venom",     "style":"ninja",   "weapon":"katana",  "head_anim":"bubble_crown","body_anim":"drip_dots",    "hd":(0,30,0),    "hl":(0,160,40),   "bd":(0,40,5),    "bl":(0,200,60),   "rd":(0,20,0),    "rl":(80,220,80),  "ac":(80,255,80), "hi":(180,255,120),"s":(80,150,80),  "pt":(60,240,60),  "fl":(140,255,100)},
-    {"name":"Sandstorm", "style":"royal",   "weapon":"axe",     "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(60,40,10),  "hl":(200,150,50), "bd":(80,55,15),  "bl":(240,190,80), "rd":(45,30,8),   "rl":(220,170,60), "ac":(255,200,80),"hi":(255,240,160),"s":(200,160,100),"pt":(240,180,60), "fl":(255,220,120)},
-    {"name":"Specter2",  "style":"tattered","weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(0,0,20),    "hl":(0,0,80),     "bd":(0,0,28),    "bl":(0,0,120),    "rd":(0,0,15),    "rl":(0,0,90),     "ac":(0,80,255),  "hi":(80,160,255), "s":(40,60,120),  "pt":(0,100,255),  "fl":(60,140,255)},
-    {"name":"Plague2",   "style":"tattered","weapon":"axe",     "head_anim":"bubble_crown","body_anim":"drip_dots",    "hd":(20,25,0),   "hl":(100,140,0),  "bd":(28,35,0),   "bl":(140,180,0),  "rd":(15,20,0),   "rl":(120,160,0),  "ac":(180,230,0), "hi":(220,255,80), "s":(130,150,60), "pt":(160,220,0),  "fl":(200,255,60)},
-    {"name":"Dusk",      "style":"robe",    "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"star_orbit",   "hd":(40,10,30),  "hl":(140,50,100), "bd":(55,15,40),  "bl":(180,80,130), "rd":(30,8,22),   "rl":(220,120,170),"ac":(255,100,160),"hi":(255,200,220),"s":(180,120,150),"pt":(240,80,140), "fl":(255,160,200)},
-    {"name":"Titan",     "style":"armor",   "weapon":"hammer",  "head_anim":"gold_crown",  "body_anim":"lava_cracks",  "hd":(30,25,20),  "hl":(120,100,80), "bd":(40,35,28),  "bl":(160,140,110),"rd":(22,18,14),  "rl":(200,180,150),"ac":(220,200,160),"hi":(255,240,200),"s":(170,150,120),"pt":(200,180,140),"fl":(240,220,180)},
-    {"name":"Wisp",      "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"bubble_rise",  "hd":(10,20,30),  "hl":(60,120,180), "bd":(15,28,42),  "bl":(80,160,220), "rd":(8,15,25),   "rl":(120,180,240),"ac":(140,200,255),"hi":(220,240,255),"s":(120,160,200),"pt":(100,180,255),"fl":(180,220,255)},
-    {"name":"Reaper2",   "style":"tattered","weapon":"scythe",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(20,0,20),   "hl":(100,0,100),  "bd":(28,0,28),   "bl":(140,0,140),  "rd":(15,0,15),   "rl":(180,0,180),  "ac":(220,0,220), "hi":(255,100,255),"s":(140,80,140), "pt":(200,0,200),  "fl":(255,80,255)},
-    {"name":"Blizzard",  "style":"royal",   "weapon":"staff",   "head_anim":"ice_crown",   "body_anim":"snowflakes",   "hd":(0,10,30),   "hl":(40,100,180), "bd":(0,15,40),   "bl":(60,140,210), "rd":(0,8,22),    "rl":(180,210,240),"ac":(120,180,255),"hi":(220,240,255),"s":(140,170,210),"pt":(100,160,255),"fl":(180,220,255)},
+    {"name":"Wraith",    "style":"tattered","weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(5,5,10),    "hl":(60,60,80),   "bd":(8,8,15),    "bl":(90,90,120),  "rd":(3,3,8),     "rl":(50,50,70),   "ac":(150,150,200),"hi":(220,220,255),"s":(80,80,100),  "pt":(180,180,240),"fl":(200,200,255),"border":"void_border","anim1":"wisps","anim2":"smoke"},
+    {"name":"Molten",    "style":"armor",   "weapon":"hammer",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(70,15,0),   "hl":(230,80,0),   "bd":(90,20,0),   "bl":(255,110,0),  "rd":(50,10,0),   "rl":(200,60,0),   "ac":(255,140,0), "hi":(255,220,80), "s":(190,100,50), "pt":(255,100,0),  "fl":(255,180,0),"border":"fire_border","anim1":"hellfire","anim2":"sand"},
+    {"name":"Blossom",   "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"petal_fall",   "hd":(50,5,25),   "hl":(200,80,120), "bd":(65,10,35),  "bl":(240,120,160),"rd":(40,4,20),   "rl":(255,180,210),"ac":(255,120,170),"hi":(255,220,235),"s":(200,140,155),"pt":(255,100,150),"fl":(255,200,220),"border":"nature_border","anim1":"wisps","anim2":"aurora"},
+    {"name":"Thunder",   "style":"armor",   "weapon":"trident", "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(15,15,40),  "hl":(80,80,180),  "bd":(20,20,55),  "bl":(120,120,220),"rd":(10,10,30),  "rl":(160,160,255),"ac":(180,180,255),"hi":(240,240,255),"s":(120,120,170),"pt":(150,150,255),"fl":(200,200,255),"border":"electric_border","anim1":"lightning","anim2":"smoke"},
+    {"name":"Venom",     "style":"ninja",   "weapon":"katana",  "head_anim":"bubble_crown","body_anim":"drip_dots",    "hd":(0,30,0),    "hl":(0,160,40),   "bd":(0,40,5),    "bl":(0,200,60),   "rd":(0,20,0),    "rl":(80,220,80),  "ac":(80,255,80), "hi":(180,255,120),"s":(80,150,80),  "pt":(60,240,60),  "fl":(140,255,100),"border":"nature_border","anim1":"blood","anim2":"smoke"},
+    {"name":"Sandstorm", "style":"royal",   "weapon":"axe",     "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(60,40,10),  "hl":(200,150,50), "bd":(80,55,15),  "bl":(240,190,80), "rd":(45,30,8),   "rl":(220,170,60), "ac":(255,200,80),"hi":(255,240,160),"s":(200,160,100),"pt":(240,180,60), "fl":(255,220,120),"border":"gold_border","anim1":"sand","anim2":"smoke"},
+    {"name":"Specter2",  "style":"tattered","weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(0,0,20),    "hl":(0,0,80),     "bd":(0,0,28),    "bl":(0,0,120),    "rd":(0,0,15),    "rl":(0,0,90),     "ac":(0,80,255),  "hi":(80,160,255), "s":(40,60,120),  "pt":(0,100,255),  "fl":(60,140,255),"border":"electric_border","anim1":"lightning","anim2":"wisps"},
+    {"name":"Plague2",   "style":"tattered","weapon":"axe",     "head_anim":"bubble_crown","body_anim":"drip_dots",    "hd":(20,25,0),   "hl":(100,140,0),  "bd":(28,35,0),   "bl":(140,180,0),  "rd":(15,20,0),   "rl":(120,160,0),  "ac":(180,230,0), "hi":(220,255,80), "s":(130,150,60), "pt":(160,220,0),  "fl":(200,255,60),"border":"nature_border","anim1":"blood","anim2":"smoke"},
+    {"name":"Dusk",      "style":"robe",    "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"star_orbit",   "hd":(40,10,30),  "hl":(140,50,100), "bd":(55,15,40),  "bl":(180,80,130), "rd":(30,8,22),   "rl":(220,120,170),"ac":(255,100,160),"hi":(255,200,220),"s":(180,120,150),"pt":(240,80,140), "fl":(255,160,200),"border":"void_border","anim1":"wisps","anim2":"aurora"},
+    {"name":"Titan",     "style":"armor",   "weapon":"hammer",  "head_anim":"gold_crown",  "body_anim":"lava_cracks",  "hd":(30,25,20),  "hl":(120,100,80), "bd":(40,35,28),  "bl":(160,140,110),"rd":(22,18,14),  "rl":(200,180,150),"ac":(220,200,160),"hi":(255,240,200),"s":(170,150,120),"pt":(200,180,140),"fl":(240,220,180),"border":"gold_border","anim1":"sand","anim2":"lightning"},
+    {"name":"Wisp",      "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"bubble_rise",  "hd":(10,20,30),  "hl":(60,120,180), "bd":(15,28,42),  "bl":(80,160,220), "rd":(8,15,25),   "rl":(120,180,240),"ac":(140,200,255),"hi":(220,240,255),"s":(120,160,200),"pt":(100,180,255),"fl":(180,220,255),"border":"ice_border","anim1":"wisps","anim2":"aurora"},
+    {"name":"Reaper2",   "style":"tattered","weapon":"scythe",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(20,0,20),   "hl":(100,0,100),  "bd":(28,0,28),   "bl":(140,0,140),  "rd":(15,0,15),   "rl":(180,0,180),  "ac":(220,0,220), "hi":(255,100,255),"s":(140,80,140), "pt":(200,0,200),  "fl":(255,80,255),"border":"void_border","anim1":"blood","anim2":"wisps"},
+    {"name":"Blizzard",  "style":"royal",   "weapon":"staff",   "head_anim":"ice_crown",   "body_anim":"snowflakes",   "hd":(0,10,30),   "hl":(40,100,180), "bd":(0,15,40),   "bl":(60,140,210), "rd":(0,8,22),    "rl":(180,210,240),"ac":(120,180,255),"hi":(220,240,255),"s":(140,170,210),"pt":(100,160,255),"fl":(180,220,255),"border":"ice_border","anim1":"crystal","anim2":"aurora"},
 ]
 
 # Exact per-frame data extracted from pixel analysis
@@ -1569,12 +1569,14 @@ def add_cosmetics(img, mask, fd, theme, frame_idx, total, anim):
         wave=0.5+0.5*math.sin(t_norm*math.pi*2+i*0.5)
         if on(gx,gy): soft_dot(gx,gy,ac+(int(50+wave*130),),int(1+wave*1.5))
 
-def draw_shape_fx(img, mask, fd, theme, frame_idx, total):
+def draw_shape_fx(img, mask, fd, theme, frame_idx, total, border_style=None):
+    """Draw border effect. border_style overrides theme style if provided."""
     draw = ImageDraw.Draw(img)
-    ac=theme["ac"]; hi=theme["hi"]; pt=theme["pt"]
+    ac=theme["ac"]; hi=theme["hi"]; pt=theme["pt"]; fl=theme.get("fl",(200,200,200))
     t_norm=frame_idx/max(total-1,1)
     pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
-    W,H=img.width,img.height; style=theme.get("style","robe")
+    W,H=img.width,img.height
+    style=border_style or theme.get("style","robe")
     edge=[]
     for row in range(1,H-1):
         for col in range(1,W-1):
@@ -1582,22 +1584,90 @@ def draw_shape_fx(img, mask, fd, theme, frame_idx, total):
                 edge.append((col,row))
     if not edge: return
     n=len(edge)
+
+    def ep(idx): return edge[int(idx%1.0*n)]
+
     for idx,(ex,ey) in enumerate(edge):
-        pos=idx/n; wave=math.sin(pos*math.pi*6+t_norm*math.pi*4)
+        pos=idx/n
+        wave=math.sin(pos*math.pi*6+t_norm*math.pi*4)
+        wave2=math.sin(pos*math.pi*10+t_norm*math.pi*2)
+
         if style in ("armor","ninja"):
-            t_c=(wave+1)/2; r=int(ac[0]*(1-t_c)+hi[0]*t_c); g=int(ac[1]*(1-t_c)+hi[1]*t_c); b=int(ac[2]*(1-t_c)+hi[2]*t_c)
+            t_c=(wave+1)/2
+            r=int(ac[0]*(1-t_c)+hi[0]*t_c); g=int(ac[1]*(1-t_c)+hi[1]*t_c); b=int(ac[2]*(1-t_c)+hi[2]*t_c)
             draw.point((ex,ey),fill=(r,g,b,int(160+80*abs(wave))))
             if wave>0.7: draw.point((ex,ey),fill=(255,255,255,int(wave*200)))
+
         elif style in ("royal","suit"):
-            t_c=(wave+1)/2; r=int(theme["fl"][0]*(1-t_c)+hi[0]*t_c); g=int(theme["fl"][1]*(1-t_c)+hi[1]*t_c); b=int(theme["fl"][2]*(1-t_c)+hi[2]*t_c)
+            t_c=(wave+1)/2
+            r=int(fl[0]*(1-t_c)+hi[0]*t_c); g=int(fl[1]*(1-t_c)+hi[1]*t_c); b=int(fl[2]*(1-t_c)+hi[2]*t_c)
             draw.point((ex,ey),fill=(r,g,b,int(140+100*abs(wave))))
             if int(pos*n)%20==0: draw.ellipse([ex-1,ey-1,ex+1,ey+1],fill=(255,255,255,int(180+pulse*60)))
-        else:
-            wave2=math.sin(pos*math.pi*10+t_norm*math.pi*2)
-            r=min(255,int(ac[0]*(abs(wave)+1)/2+pt[0]*(abs(wave2)+1)/2)); g=min(255,int(ac[1]*(abs(wave)+1)/2+pt[1]*(abs(wave2)+1)/2)); b=min(255,int(ac[2]*(abs(wave)+1)/2+pt[2]*(abs(wave2)+1)/2))
+
+        elif style == "fire_border":
+            # Flickering fire edge
+            flicker=math.sin(pos*math.pi*8+t_norm*math.pi*6)
+            r=255; g=int(80+120*abs(flicker)); b=0
+            draw.point((ex,ey),fill=(r,g,b,int(180+60*abs(flicker))))
+            if flicker>0.6:
+                draw.ellipse([ex-1,ey-2,ex+1,ey],fill=(255,220,0,int(flicker*200)))
+
+        elif style == "ice_border":
+            # Crystalline ice edge with sparkles
+            t_c=(wave+1)/2
+            r=int(140+80*t_c); g=int(200+40*t_c); b=255
+            draw.point((ex,ey),fill=(r,g,b,int(160+80*abs(wave))))
+            if int(pos*n)%15==0:
+                draw.ellipse([ex-2,ey-2,ex+2,ey+2],fill=(255,255,255,int(180+pulse*60)))
+
+        elif style == "void_border":
+            # Dark void with purple sparks
+            spark=math.sin(pos*math.pi*12+t_norm*math.pi*8)
+            r=int(40+80*abs(spark)); g=0; b=int(80+120*abs(spark))
+            draw.point((ex,ey),fill=(r,g,b,int(140+100*abs(spark))))
+            if spark>0.8: draw.ellipse([ex-1,ey-1,ex+1,ey+1],fill=(200,100,255,int(spark*220)))
+
+        elif style == "gold_border":
+            # Shimmering gold with jewel nodes
+            t_c=(wave+1)/2
+            r=int(200+40*t_c); g=int(150+80*t_c); b=int(20*t_c)
+            draw.point((ex,ey),fill=(r,g,b,int(180+60*abs(wave))))
+            if int(pos*n)%25==0:
+                draw.ellipse([ex-2,ey-2,ex+2,ey+2],fill=(255,220,50,int(200+pulse*55)))
+
+        elif style == "rainbow_border":
+            # Full rainbow cycling around edge
+            hue_pos=(pos+t_norm*0.5)%1.0
+            import colorsys
+            r2,g2,b2=colorsys.hsv_to_rgb(hue_pos,1.0,1.0)
+            draw.point((ex,ey),fill=(int(r2*255),int(g2*255),int(b2*255),int(180+60*abs(wave))))
+
+        elif style == "electric_border":
+            # Electric blue with random zap nodes
+            zap=math.sin(pos*math.pi*14+t_norm*math.pi*10)
+            r=int(20+40*abs(zap)); g=int(100+100*abs(zap)); b=255
+            draw.point((ex,ey),fill=(r,g,b,int(160+80*abs(zap))))
+            if zap>0.85 and int(pos*n)%8==0:
+                draw.ellipse([ex-2,ey-2,ex+2,ey+2],fill=(255,255,255,220))
+
+        elif style == "nature_border":
+            # Green vine with flower nodes
+            t_c=(wave+1)/2
+            r=int(20+60*t_c); g=int(120+100*t_c); b=int(20+40*t_c)
+            draw.point((ex,ey),fill=(r,g,b,int(160+80*abs(wave))))
+            if int(pos*n)%30==0:
+                draw.ellipse([ex-2,ey-2,ex+2,ey+2],fill=(255,150,200,int(180+pulse*60)))
+
+        else:  # default robe/tattered
+            r=min(255,int(ac[0]*(abs(wave)+1)/2+pt[0]*(abs(wave2)+1)/2))
+            g=min(255,int(ac[1]*(abs(wave)+1)/2+pt[1]*(abs(wave2)+1)/2))
+            b=min(255,int(ac[2]*(abs(wave)+1)/2+pt[2]*(abs(wave2)+1)/2))
             draw.point((ex,ey),fill=(r,g,b,int(120+100*abs(wave))))
+
+    # Traveling nodes on edge
     for i in range(8):
-        node_pos=(t_norm+i/8)%1.0; ex,ey=edge[int(node_pos*n)]
+        node_pos=(t_norm+i/8)%1.0
+        ex,ey=edge[int(node_pos*n)]
         draw.ellipse([ex-2,ey-2,ex+2,ey+2],fill=hi+(int(180+60*math.sin(t_norm*math.pi*2+i)),))
         draw.point((ex,ey),fill=(255,255,255,int(200+pulse*55)))
 
@@ -1738,7 +1808,11 @@ def draw_overlay_group(img, mask, fd, theme, frame_idx, total, anim, group):
             if on(chain_cx,cy2): soft_dot(chain_cx,cy2,ac+(int(80+phase_i*140),),int(2+phase_i))
 
     elif group == "shape":
-        draw_shape_fx(img,mask,fd,theme,frame_idx,total)
+        border_style = theme.get("border", None)
+        draw_shape_fx(img,mask,fd,theme,frame_idx,total,border_style)
+
+    elif group.startswith("shape_"):
+        draw_shape_fx(img,mask,fd,theme,frame_idx,total,group[6:])
 
     elif group == "aurora":
         # Aurora wave overlay — independent of body_anim
@@ -1888,7 +1962,8 @@ def generate_skin(theme_name=None, seed=None, shape_fx=False):
 
     # Named overlay groups — each is a transparent RGBA layer
     # Keys match what the sidebar toggles
-    overlay_groups = ["head", "eyes", "body", "scythe", "robe", "shape", "aurora", "hellfire", "crystal", "lightning", "smoke", "blood", "sand", "wisps"]
+    BORDER_STYLES = ["armor","fire_border","ice_border","void_border","gold_border","rainbow_border","electric_border","nature_border","royal"]
+    overlay_groups = ["head", "eyes", "body", "scythe", "robe", "shape", "aurora", "hellfire", "crystal", "lightning", "smoke", "blood", "sand", "wisps"] + ["shape_"+b for b in BORDER_STYLES]
     overlays_b64 = {g: {} for g in overlay_groups}
 
     for anim in ["attack","flying","idle"]:
@@ -1911,7 +1986,7 @@ def generate_skin(theme_name=None, seed=None, shape_fx=False):
             # Full frame
             full = base_img.copy()
             add_cosmetics(full, mask, fd, theme, idx, total, anim)
-            if shape_fx: draw_shape_fx(full, mask, fd, theme, idx, total)
+            if shape_fx: draw_shape_fx(full, mask, fd, theme, idx, total, theme.get("border"))
             full.save(os.path.join(dst_dir, fname), "PNG")
             buf = io.BytesIO(); full.save(buf,"PNG")
             frames_b64[anim].append(base64.b64encode(buf.getvalue()).decode())

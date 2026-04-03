@@ -41,6 +41,11 @@ header p{color:#555;font-size:0.75rem;margin-top:2px}
 .toggle-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .15s;user-select:none}
 .toggle-item:hover{background:#141428}
 .toggle-item.active{background:#1a1035}
+.brad{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;background:#1a0a2a;border:1px solid #3a1a5a;color:#a080d0;font-size:0.72rem;cursor:pointer;transition:background .15s}
+.brad:has(input:checked){background:#3a1a6a;border-color:#7030e0;color:#fff}
+.brad input{display:none}
+.cat-header{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#7050a0;padding:6px 4px 3px;cursor:pointer;user-select:none;border-bottom:1px solid #1e1e35;margin-top:6px}
+.cat-header:hover{color:#a080d0}
 .toggle-item .ico{font-size:1.1rem;width:22px;text-align:center}
 .toggle-item .lbl{font-size:0.82rem;color:#c0a0e0;flex:1}
 .toggle-switch{width:32px;height:18px;background:#2a2a45;border-radius:9px;position:relative;transition:background .2s;flex-shrink:0}
@@ -97,18 +102,54 @@ select:focus,input:focus{border-color:#7030e0}
 <div class="layout">
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <h3>Animations</h3>
-    {% for key,ico,label in sidebar_items %}
-    <div class="toggle-item active" id="ti_{{key}}" onclick="toggleAnim('{{key}}')">
-      <span class="ico">{{ico}}</span>
-      <span class="lbl">{{label}}</span>
-      <div class="toggle-switch on" id="sw_{{key}}"></div>
+    <!-- Enable All / Disable All -->
+    <div style="display:flex;gap:4px;margin-bottom:8px">
+      <button onclick="setAllGroups(true)"  style="flex:1;padding:4px;border-radius:6px;background:#1a1035;border:1px solid #5030a0;color:#a080d0;font-size:0.68rem;cursor:pointer">✅ All On</button>
+      <button onclick="setAllGroups(false)" style="flex:1;padding:4px;border-radius:6px;background:#1a0a1a;border:1px solid #501030;color:#e06080;font-size:0.68rem;cursor:pointer">❌ All Off</button>
     </div>
-    {% endfor %}
+
+    <!-- Category: Head -->
+    <div class="cat-header" onclick="toggleCat('cat_head')">👑 Head</div>
+    <div id="cat_head">
+      <div class="toggle-item active" id="ti_head" onclick="toggleAnim('head')"><span class="ico">👑</span><span class="lbl">Head & Crown</span><div class="toggle-switch on" id="sw_head"></div></div>
+      <div class="toggle-item active" id="ti_eyes" onclick="toggleAnim('eyes')"><span class="ico">👁️</span><span class="lbl">Eyes & Face</span><div class="toggle-switch on" id="sw_eyes"></div></div>
+    </div>
+
+    <!-- Category: Body -->
+    <div class="cat-header" onclick="toggleCat('cat_body')">🧍 Body</div>
+    <div id="cat_body">
+      <div class="toggle-item active" id="ti_body" onclick="toggleAnim('body')"><span class="ico">✨</span><span class="lbl">Body FX</span><div class="toggle-switch on" id="sw_body"></div></div>
+      <div class="toggle-item active" id="ti_robe" onclick="toggleAnim('robe')"><span class="ico">🌟</span><span class="lbl">Robe & Trim</span><div class="toggle-switch on" id="sw_robe"></div></div>
+      <div class="toggle-item active" id="ti_blood" onclick="toggleAnim('blood')"><span class="ico">🩸</span><span class="lbl">Blood Drip</span><div class="toggle-switch on" id="sw_blood"></div></div>
+      <div class="toggle-item active" id="ti_smoke" onclick="toggleAnim('smoke')"><span class="ico">💨</span><span class="lbl">Smoke Tendrils</span><div class="toggle-switch on" id="sw_smoke"></div></div>
+    </div>
+
+    <!-- Category: Scythe & Chain -->
+    <div class="cat-header" onclick="toggleCat('cat_scythe')">⚔️ Scythe</div>
+    <div id="cat_scythe">
+      <div class="toggle-item active" id="ti_scythe" onclick="toggleAnim('scythe')"><span class="ico">⚔️</span><span class="lbl">Scythe & Chain</span><div class="toggle-switch on" id="sw_scythe"></div></div>
+      <div class="toggle-item active" id="ti_lightning" onclick="toggleAnim('lightning')"><span class="ico">⚡</span><span class="lbl">Lightning Strike</span><div class="toggle-switch on" id="sw_lightning"></div></div>
+    </div>
+
+    <!-- Category: Aura / Particles -->
+    <div class="cat-header" onclick="toggleCat('cat_aura')">🌌 Aura</div>
+    <div id="cat_aura">
+      <div class="toggle-item active" id="ti_aurora" onclick="toggleAnim('aurora')"><span class="ico">🌌</span><span class="lbl">Aurora Wave</span><div class="toggle-switch on" id="sw_aurora"></div></div>
+      <div class="toggle-item active" id="ti_hellfire" onclick="toggleAnim('hellfire')"><span class="ico">🔥</span><span class="lbl">Hellfire Rise</span><div class="toggle-switch on" id="sw_hellfire"></div></div>
+      <div class="toggle-item active" id="ti_crystal" onclick="toggleAnim('crystal')"><span class="ico">💎</span><span class="lbl">Crystal Shards</span><div class="toggle-switch on" id="sw_crystal"></div></div>
+      <div class="toggle-item active" id="ti_wisps" onclick="toggleAnim('wisps')"><span class="ico">👻</span><span class="lbl">Ghost Wisps</span><div class="toggle-switch on" id="sw_wisps"></div></div>
+      <div class="toggle-item active" id="ti_sand" onclick="toggleAnim('sand')"><span class="ico">🌪️</span><span class="lbl">Sand Vortex</span><div class="toggle-switch on" id="sw_sand"></div></div>
+    </div>
+
+    <!-- Category: Border -->
+    <div class="cat-header" onclick="toggleCat('cat_border')">🔮 Border</div>
+    <div id="cat_border">
+      <div class="toggle-item active" id="ti_shape" onclick="toggleAnim('shape')"><span class="ico">🔮</span><span class="lbl">Shape Border</span><div class="toggle-switch on" id="sw_shape"></div></div>
+    </div>
+
     <div class="sidebar-sep"></div>
-    <div class="toggle-item active" id="ti_pingpong" onclick="togglePP()">
-      <span class="ico">🔄</span>
-      <span class="lbl">Ping-pong</span>
+    <div class="toggle-item" id="ti_pingpong" onclick="togglePP()">
+      <span class="ico">🔄</span><span class="lbl">Ping-pong</span>
       <div class="toggle-switch" id="sw_pingpong"></div>
     </div>
   </div>
@@ -118,9 +159,9 @@ select:focus,input:focus{border-color:#7030e0}
     <div class="controls">
       <div class="cg">
         <label>Theme</label>
-        <select id="themeSelect">
+        <select id="themeSelect" onchange="onThemeChange(this.value)">
           <option value="">🎲 Random</option>
-          {% for t in themes %}<option value="{{t.name}}">{{t.name}}</option>{% endfor %}
+          {% for t in themes %}<option value="{{t.name}}" data-anim1="{{t.get('anim1','')}}" data-anim2="{{t.get('anim2','')}}" data-border="{{t.get('border','')}}">{{t.name}}</option>{% endfor %}
         </select>
       </div>
       <div class="cg">
@@ -129,6 +170,47 @@ select:focus,input:focus{border-color:#7030e0}
       </div>
       <button class="btn btn-gen" id="genBtn" onclick="gen()">✨ Generate Skin</button>
       <button class="btn btn-dl" id="dlBtn" onclick="dl()" disabled>⬇ Download ZIP</button>
+    </div>
+
+    <!-- Border Effects (radio — 1 at a time) -->
+    <div style="padding:8px 16px;background:#0d0a1a;border-bottom:1px solid #2a1a4a">
+      <div style="font-size:0.7rem;color:#a080d0;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">🔮 Border Effect <span style="font-size:0.6rem;color:#555;font-weight:400">(select 1, or merge 2)</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center" id="borderRadios">
+        <label class="brad" data-b=""><input type="radio" name="border" value="" checked onchange="onBorderChange('')"> None</label>
+        <label class="brad" data-b="armor"><input type="radio" name="border" value="armor" onchange="onBorderChange('armor')"> ⚔️ Armor</label>
+        <label class="brad" data-b="fire_border"><input type="radio" name="border" value="fire_border" onchange="onBorderChange('fire_border')"> 🔥 Fire</label>
+        <label class="brad" data-b="ice_border"><input type="radio" name="border" value="ice_border" onchange="onBorderChange('ice_border')"> ❄️ Ice</label>
+        <label class="brad" data-b="void_border"><input type="radio" name="border" value="void_border" onchange="onBorderChange('void_border')"> 🌑 Void</label>
+        <label class="brad" data-b="gold_border"><input type="radio" name="border" value="gold_border" onchange="onBorderChange('gold_border')"> 🥇 Gold</label>
+        <label class="brad" data-b="rainbow_border"><input type="radio" name="border" value="rainbow_border" onchange="onBorderChange('rainbow_border')"> 🌈 Rainbow</label>
+        <label class="brad" data-b="electric_border"><input type="radio" name="border" value="electric_border" onchange="onBorderChange('electric_border')"> ⚡ Electric</label>
+        <label class="brad" data-b="nature_border"><input type="radio" name="border" value="nature_border" onchange="onBorderChange('nature_border')"> 🌿 Nature</label>
+        <label class="brad" data-b="royal"><input type="radio" name="border" value="royal" onchange="onBorderChange('royal')"> 👑 Royal</label>
+        <button onclick="openMerge()" style="padding:3px 10px;border-radius:8px;background:#2a1a4a;border:1px solid #5030a0;color:#a080d0;font-size:0.7rem;cursor:pointer">⚗️ Merge 2</button>
+      </div>
+    </div>
+
+    <!-- Merge Modal -->
+    <div id="mergeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;align-items:center;justify-content:center">
+      <div style="background:#0d0a1a;border:1.5px solid #5030a0;border-radius:14px;padding:20px;width:340px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:0.9rem;font-weight:700;color:#a080d0">⚗️ Merge 2 Border Effects</div>
+        <select id="merge1" style="padding:6px;border-radius:8px;background:#1a0a2a;border:1px solid #3a1a5a;color:#e0e0e0">
+          <option value="fire_border">🔥 Fire</option><option value="ice_border">❄️ Ice</option>
+          <option value="void_border">🌑 Void</option><option value="gold_border">🥇 Gold</option>
+          <option value="rainbow_border">🌈 Rainbow</option><option value="electric_border">⚡ Electric</option>
+          <option value="nature_border">🌿 Nature</option><option value="armor">⚔️ Armor</option><option value="royal">👑 Royal</option>
+        </select>
+        <select id="merge2" style="padding:6px;border-radius:8px;background:#1a0a2a;border:1px solid #3a1a5a;color:#e0e0e0">
+          <option value="ice_border">❄️ Ice</option><option value="fire_border">🔥 Fire</option>
+          <option value="void_border">🌑 Void</option><option value="gold_border">🥇 Gold</option>
+          <option value="rainbow_border">🌈 Rainbow</option><option value="electric_border">⚡ Electric</option>
+          <option value="nature_border">🌿 Nature</option><option value="armor">⚔️ Armor</option><option value="royal">👑 Royal</option>
+        </select>
+        <div style="display:flex;gap:8px">
+          <button onclick="doMerge()" style="flex:1;padding:8px;border-radius:8px;background:linear-gradient(135deg,#7030e0,#a040ff);border:none;color:#fff;font-weight:700;cursor:pointer">Apply Merge</button>
+          <button onclick="document.getElementById('mergeModal').style.display='none'" style="padding:8px 14px;border-radius:8px;background:#1a0a2a;border:1px solid #3a1a5a;color:#888;cursor:pointer">Cancel</button>
+        </div>
+      </div>
     </div>
 
     <div class="preview" id="preview">
@@ -144,13 +226,72 @@ select:focus,input:focus{border-color:#7030e0}
 
 <script>
 let curId=null, hist=[], intervals={};
-let baseFrames={}, overlayFrames={};  // {anim:[b64]}, {group:{anim:[b64]}}
-let baseImgs={}, overlayImgs={};      // preloaded Image objects
+let baseFrames={}, overlayFrames={};
+let baseImgs={}, overlayImgs={};
 let enabledGroups=new Set(['head','eyes','body','scythe','robe','shape']);
 let pingpong=false;
+let activeBorder='';
+let mergedBorder=null; // {b1,b2} when merge active
 const GROUPS=['head','eyes','body','scythe','robe','shape','aurora','hellfire','crystal','lightning','smoke','blood','sand','wisps'];
 const ANIMS=['attack','flying','idle'];
 const FPS={attack:12,flying:6,idle:6};
+
+// Theme data from server
+const THEME_DATA = {
+  {% for t in themes %}"{{t.name}}":{"anim1":"{{t.get('anim1','')}}","anim2":"{{t.get('anim2','')}}","border":"{{t.get('border','')}}"},
+  {% endfor %}
+};
+
+function setAllGroups(on){
+  GROUPS.forEach(g=>{
+    if(on) enabledGroups.add(g); else enabledGroups.delete(g);
+    const sw=document.getElementById('sw_'+g);
+    const ti=document.getElementById('ti_'+g);
+    if(sw) sw.className='toggle-switch'+(on?' on':'');
+    if(ti) ti.className='toggle-item'+(on?' active':'');
+  });
+  if(curId) ANIMS.forEach(anim=>{ drawAllStrip(anim); drawBig(anim,animIdxs[anim]); });
+}
+
+function toggleCat(catId){
+  const el=document.getElementById(catId);
+  if(el) el.style.display=el.style.display==='none'?'':'none';
+}
+
+function onThemeChange(name){
+  const td=THEME_DATA[name];
+  if(!td) return;
+  // Auto-enable theme's 2 special animations
+  if(td.anim1) enabledGroups.add(td.anim1);
+  if(td.anim2) enabledGroups.add(td.anim2);
+  // Auto-set theme border
+  if(td.border){
+    activeBorder=td.border; mergedBorder=null;
+    document.querySelectorAll('input[name="border"]').forEach(r=>r.checked=(r.value===td.border));
+  }
+  // Refresh toggle UI
+  GROUPS.forEach(g=>{
+    const sw=document.getElementById('sw_'+g);
+    const ti=document.getElementById('ti_'+g);
+    if(sw){ const on=enabledGroups.has(g); sw.className='toggle-switch'+(on?' on':''); }
+    if(ti){ const on=enabledGroups.has(g); ti.className='toggle-item'+(on?' active':''); }
+  });
+}
+
+function onBorderChange(val){
+  activeBorder=val; mergedBorder=null;
+  if(curId) { ANIMS.forEach(anim=>{ drawAllStrip(anim); drawBig(anim,animIdxs[anim]); }); }
+}
+
+function openMerge(){ document.getElementById('mergeModal').style.display='flex'; }
+function doMerge(){
+  const b1=document.getElementById('merge1').value;
+  const b2=document.getElementById('merge2').value;
+  mergedBorder={b1,b2}; activeBorder='__merged__';
+  document.querySelectorAll('input[name="border"]').forEach(r=>r.checked=false);
+  document.getElementById('mergeModal').style.display='none';
+  if(curId) { ANIMS.forEach(anim=>{ drawAllStrip(anim); drawBig(anim,animIdxs[anim]); }); }
+}
 
 function gen(){
   const btn=document.getElementById('genBtn');
@@ -184,19 +325,22 @@ function preloadAll(cb){
     baseFrames[anim].forEach((b64,i)=>{
       total++;
       const img=new Image();
-      img.onload=done;
+      img.onload=done; img.onerror=done;
       img.src='data:image/png;base64,'+b64;
       baseImgs[anim].push(img);
     });
   });
-  GROUPS.forEach(g=>{
+  // Load all overlay groups including shape_* border variants
+  const allGroups=Object.keys(overlayFrames);
+  allGroups.forEach(g=>{
     overlayImgs[g]={};
     ANIMS.forEach(anim=>{
       overlayImgs[g][anim]=[];
       (overlayFrames[g]&&overlayFrames[g][anim]||[]).forEach((b64,i)=>{
+        if(!b64){overlayImgs[g][anim].push(null);return;}
         total++;
         const img=new Image();
-        img.onload=done;
+        img.onload=done; img.onerror=done;
         img.src='data:image/png;base64,'+b64;
         overlayImgs[g][anim].push(img);
       });
@@ -206,7 +350,6 @@ function preloadAll(cb){
 }
 
 function compositeFrame(anim, idx){
-  // Returns a canvas with base + enabled overlays composited
   const base=baseImgs[anim]&&baseImgs[anim][idx];
   if(!base) return null;
   const c=document.createElement('canvas');
@@ -218,6 +361,17 @@ function compositeFrame(anim, idx){
     const ov=overlayImgs[g]&&overlayImgs[g][anim]&&overlayImgs[g][anim][idx];
     if(ov) ctx.drawImage(ov,0,0);
   });
+  // Apply border overlay(s)
+  const applyBorder=(key)=>{
+    const ov=overlayImgs[key]&&overlayImgs[key][anim]&&overlayImgs[key][anim][idx];
+    if(ov) ctx.drawImage(ov,0,0);
+  };
+  if(activeBorder==='__merged__'&&mergedBorder){
+    applyBorder('shape_'+mergedBorder.b1);
+    applyBorder('shape_'+mergedBorder.b2);
+  } else if(activeBorder&&activeBorder!==''){
+    applyBorder('shape_'+activeBorder);
+  }
   return c;
 }
 
