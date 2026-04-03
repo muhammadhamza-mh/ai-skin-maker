@@ -52,6 +52,20 @@ THEMES = [
     {"name":"Aurora",    "style":"royal",   "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"aurora_wave",  "hd":(0,20,40),   "hl":(0,180,160),  "bd":(0,30,55),   "bl":(0,220,200),  "rd":(0,15,35),   "rl":(80,255,220), "ac":(0,255,200), "hi":(180,255,240),"s":(80,180,160), "pt":(0,220,180),  "fl":(100,255,220)},
     {"name":"Infernal",  "style":"armor",   "weapon":"trident", "head_anim":"fire_crown",  "body_anim":"hellfire_rise","hd":(50,0,0),    "hl":(180,0,0),    "bd":(70,5,0),    "bl":(220,20,0),   "rd":(35,0,0),    "rl":(160,0,0),    "ac":(255,40,0),  "hi":(255,160,0),  "s":(160,70,40),  "pt":(255,20,0),   "fl":(255,100,0)},
     {"name":"Crystal",   "style":"suit",    "weapon":"sword",   "head_anim":"ice_crown",   "body_anim":"crystal_shards","hd":(20,30,50),  "hl":(140,180,220),"bd":(25,40,65),  "bl":(180,210,240),"rd":(15,25,45),  "rl":(220,235,255),"ac":(160,200,255),"hi":(240,248,255),"s":(160,185,210),"pt":(130,180,255),"fl":(200,230,255)},
+    # ── v1.03 Themes ──
+    {"name":"Wraith",    "style":"tattered","weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(5,5,10),    "hl":(60,60,80),   "bd":(8,8,15),    "bl":(90,90,120),  "rd":(3,3,8),     "rl":(50,50,70),   "ac":(150,150,200),"hi":(220,220,255),"s":(80,80,100),  "pt":(180,180,240),"fl":(200,200,255)},
+    {"name":"Molten",    "style":"armor",   "weapon":"hammer",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(70,15,0),   "hl":(230,80,0),   "bd":(90,20,0),   "bl":(255,110,0),  "rd":(50,10,0),   "rl":(200,60,0),   "ac":(255,140,0), "hi":(255,220,80), "s":(190,100,50), "pt":(255,100,0),  "fl":(255,180,0)},
+    {"name":"Blossom",   "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"petal_fall",   "hd":(50,5,25),   "hl":(200,80,120), "bd":(65,10,35),  "bl":(240,120,160),"rd":(40,4,20),   "rl":(255,180,210),"ac":(255,120,170),"hi":(255,220,235),"s":(200,140,155),"pt":(255,100,150),"fl":(255,200,220)},
+    {"name":"Thunder",   "style":"armor",   "weapon":"trident", "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(15,15,40),  "hl":(80,80,180),  "bd":(20,20,55),  "bl":(120,120,220),"rd":(10,10,30),  "rl":(160,160,255),"ac":(180,180,255),"hi":(240,240,255),"s":(120,120,170),"pt":(150,150,255),"fl":(200,200,255)},
+    {"name":"Venom",     "style":"ninja",   "weapon":"katana",  "head_anim":"bubble_crown","body_anim":"drip_dots",    "hd":(0,30,0),    "hl":(0,160,40),   "bd":(0,40,5),    "bl":(0,200,60),   "rd":(0,20,0),    "rl":(80,220,80),  "ac":(80,255,80), "hi":(180,255,120),"s":(80,150,80),  "pt":(60,240,60),  "fl":(140,255,100)},
+    {"name":"Sandstorm", "style":"royal",   "weapon":"axe",     "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(60,40,10),  "hl":(200,150,50), "bd":(80,55,15),  "bl":(240,190,80), "rd":(45,30,8),   "rl":(220,170,60), "ac":(255,200,80),"hi":(255,240,160),"s":(200,160,100),"pt":(240,180,60), "fl":(255,220,120)},
+    {"name":"Specter2",  "style":"tattered","weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(0,0,20),    "hl":(0,0,80),     "bd":(0,0,28),    "bl":(0,0,120),    "rd":(0,0,15),    "rl":(0,0,90),     "ac":(0,80,255),  "hi":(80,160,255), "s":(40,60,120),  "pt":(0,100,255),  "fl":(60,140,255)},
+    {"name":"Plague2",   "style":"tattered","weapon":"axe",     "head_anim":"bubble_crown","body_anim":"drip_dots",    "hd":(20,25,0),   "hl":(100,140,0),  "bd":(28,35,0),   "bl":(140,180,0),  "rd":(15,20,0),   "rl":(120,160,0),  "ac":(180,230,0), "hi":(220,255,80), "s":(130,150,60), "pt":(160,220,0),  "fl":(200,255,60)},
+    {"name":"Dusk",      "style":"robe",    "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"star_orbit",   "hd":(40,10,30),  "hl":(140,50,100), "bd":(55,15,40),  "bl":(180,80,130), "rd":(30,8,22),   "rl":(220,120,170),"ac":(255,100,160),"hi":(255,200,220),"s":(180,120,150),"pt":(240,80,140), "fl":(255,160,200)},
+    {"name":"Titan",     "style":"armor",   "weapon":"hammer",  "head_anim":"gold_crown",  "body_anim":"lava_cracks",  "hd":(30,25,20),  "hl":(120,100,80), "bd":(40,35,28),  "bl":(160,140,110),"rd":(22,18,14),  "rl":(200,180,150),"ac":(220,200,160),"hi":(255,240,200),"s":(170,150,120),"pt":(200,180,140),"fl":(240,220,180)},
+    {"name":"Wisp",      "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"bubble_rise",  "hd":(10,20,30),  "hl":(60,120,180), "bd":(15,28,42),  "bl":(80,160,220), "rd":(8,15,25),   "rl":(120,180,240),"ac":(140,200,255),"hi":(220,240,255),"s":(120,160,200),"pt":(100,180,255),"fl":(180,220,255)},
+    {"name":"Reaper2",   "style":"tattered","weapon":"scythe",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(20,0,20),   "hl":(100,0,100),  "bd":(28,0,28),   "bl":(140,0,140),  "rd":(15,0,15),   "rl":(180,0,180),  "ac":(220,0,220), "hi":(255,100,255),"s":(140,80,140), "pt":(200,0,200),  "fl":(255,80,255)},
+    {"name":"Blizzard",  "style":"royal",   "weapon":"staff",   "head_anim":"ice_crown",   "body_anim":"snowflakes",   "hd":(0,10,30),   "hl":(40,100,180), "bd":(0,15,40),   "bl":(60,140,210), "rd":(0,8,22),    "rl":(180,210,240),"ac":(120,180,255),"hi":(220,240,255),"s":(140,170,210),"pt":(100,160,255),"fl":(180,220,255)},
 ]
 
 # Exact per-frame data extracted from pixel analysis
@@ -1779,6 +1793,88 @@ def draw_overlay_group(img, mask, fd, theme, frame_idx, total, anim, group):
             fx2=bx+math.cos(a)*bw//4; fy2=by+math.sin(a)*14
             if on(fx2,fy2): dot(fx2,fy2,(220,240,255,int(140+pulse*80)),int(2+pulse))
 
+    elif group == "lightning":
+        # Lightning bolts striking down the body
+        t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
+        for bolt in range(3):
+            bx2=bx-bw//3+bolt*(bw//3)
+            if (frame_idx+bolt*2)%5==0:  # flash every few frames
+                y_cur=by-30
+                x_cur=bx2
+                while y_cur<boty:
+                    x_cur+=random.randint(-4,4)
+                    x_cur=max(bx-bw//2,min(bx+bw//2,x_cur))
+                    if on(x_cur,y_cur):
+                        dot(x_cur,y_cur,(220,220,255,220),2)
+                        dot(x_cur,y_cur,(255,255,255,180),1)
+                    y_cur+=3
+        # Persistent glow dots
+        for i in range(6):
+            a=(i/6)*math.pi*2+t_norm*math.pi*4
+            ox=bx+math.cos(a)*bw//4; oy=by+math.sin(a)*16
+            if on(ox,oy): dot(ox,oy,ac+(int(80+pulse*140),),int(1+pulse))
+
+    elif group == "smoke":
+        # Smoke tendrils rising from body
+        t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
+        for i in range(5):
+            base_x=botx-botw//3+i*(botw*2//3//4)
+            for step in range(12):
+                rise=(frame_idx*2+i*7+step*3)%50
+                sx2=base_x+int(math.sin((rise+i*20)*0.25)*8)
+                sy2=boty-rise
+                alpha=int(180*(1-rise/50))
+                if on(sx2,sy2): dot(sx2,sy2,ac+(alpha,),int(3-rise//20))
+
+    elif group == "blood":
+        # Blood drip effect
+        t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
+        for i in range(7):
+            drip=(frame_idx*(2+i%3)*3+i*13)%55
+            dx2=botx-botw//3+i*(botw*2//3//6)
+            # Drip trail
+            for d in range(min(drip,15)):
+                alpha=int(220-d*12)
+                if on(dx2,boty+d): dot(dx2,boty+d,(180,0,0,alpha),2)
+            # Drip head
+            if on(dx2,boty+drip%15): dot(dx2,boty+drip%15,(220,0,0,int(200+pulse*40)),3)
+        # Splatter on robe
+        for i in range(4):
+            sx2=bx-bw//4+i*(bw//3); sy2=by+10+i*5
+            if on(sx2,sy2) and (frame_idx+i)%8<2:
+                dot(sx2,sy2,(160,0,0,int(140+pulse*60)),int(2+pulse))
+
+    elif group == "sand":
+        # Sand vortex swirling around body
+        t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
+        for i in range(20):
+            angle=(i/20)*math.pi*2+t_norm*math.pi*3
+            height_frac=i/20
+            radius=int((bw//3)*(0.5+0.5*math.sin(height_frac*math.pi)))
+            ox=bx+math.cos(angle)*radius
+            oy=by-20+int(height_frac*50)
+            if on(ox,oy):
+                alpha=int(120+80*math.sin(angle))
+                dot(ox,oy,ac+(alpha,),int(1+pulse))
+                if i%4==0: dot(ox+1,oy-1,hi+(int(alpha*0.6),),1)
+
+    elif group == "wisps":
+        # Ghost wisps floating around body
+        t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
+        for i in range(4):
+            phase=(t_norm+i/4)%1.0
+            wx=bx+int(math.sin(phase*math.pi*2+i*1.5)*(bw//2-8))
+            wy=by-25+int(phase*60)
+            alpha=int(200*math.sin(phase*math.pi))
+            if alpha>20 and on(wx,wy):
+                draw.ellipse([wx-5,wy-8,wx+5,wy+8],fill=hi+(alpha,))
+                draw.ellipse([wx-3,wy-5,wx+3,wy+5],fill=(255,255,255,int(alpha*0.6)))
+                # Wisp tail
+                for t2 in range(1,5):
+                    tx=wx+int(math.sin((phase-t2*0.02)*math.pi*2+i*1.5)*t2*2)
+                    ty=wy+t2*4
+                    if on(tx,ty): dot(tx,ty,ac+(int(alpha*(1-t2/5)),),2)
+
 
 def generate_skin(theme_name=None, seed=None, shape_fx=False):
     if seed is not None: random.seed(seed)
@@ -1792,7 +1888,7 @@ def generate_skin(theme_name=None, seed=None, shape_fx=False):
 
     # Named overlay groups — each is a transparent RGBA layer
     # Keys match what the sidebar toggles
-    overlay_groups = ["head", "eyes", "body", "scythe", "robe", "shape", "aurora", "hellfire", "crystal"]
+    overlay_groups = ["head", "eyes", "body", "scythe", "robe", "shape", "aurora", "hellfire", "crystal", "lightning", "smoke", "blood", "sand", "wisps"]
     overlays_b64 = {g: {} for g in overlay_groups}
 
     for anim in ["attack","flying","idle"]:

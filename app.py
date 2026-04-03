@@ -6,15 +6,20 @@ from skin_designer import generate_skin, create_zip, THEMES
 app = Flask(__name__)
 
 SIDEBAR_ITEMS = [
-    ("head",     "👑", "Head & Crown"),
-    ("eyes",     "👁️", "Eyes & Face"),
-    ("body",     "✨", "Body FX"),
-    ("scythe",   "⚔️", "Scythe & Chain"),
-    ("robe",     "🌟", "Robe & Trim"),
-    ("shape",    "🔮", "Shape Border"),
-    ("aurora",   "🌌", "Aurora Wave"),
-    ("hellfire", "🔥", "Hellfire Rise"),
-    ("crystal",  "💎", "Crystal Shards"),
+    ("head",      "👑", "Head & Crown"),
+    ("eyes",      "👁️", "Eyes & Face"),
+    ("body",      "✨", "Body FX"),
+    ("scythe",    "⚔️", "Scythe & Chain"),
+    ("robe",      "🌟", "Robe & Trim"),
+    ("shape",     "🔮", "Shape Border"),
+    ("aurora",    "🌌", "Aurora Wave"),
+    ("hellfire",  "🔥", "Hellfire Rise"),
+    ("crystal",   "💎", "Crystal Shards"),
+    ("lightning", "⚡", "Lightning Strike"),
+    ("smoke",     "💨", "Smoke Tendrils"),
+    ("blood",     "🩸", "Blood Drip"),
+    ("sand",      "🌪️", "Sand Vortex"),
+    ("wisps",     "👻", "Ghost Wisps"),
 ]
 
 HTML = """<!DOCTYPE html>
@@ -85,8 +90,8 @@ select:focus,input:focus{border-color:#7030e0}
 <body>
 <header>
   <div>
-    <h1>⚔️ AI GrimReaper Skin Maker <span style="font-size:0.65rem;background:#2a1a4a;color:#a080d0;padding:2px 7px;border-radius:10px;margin-left:6px;-webkit-text-fill-color:#a080d0">v1.02</span></h1>
-    <p>34 themes · Unique eye styles · Weapons · Real-time animation toggles</p>
+    <h1>⚔️ AI GrimReaper Skin Maker <span style="font-size:0.65rem;background:#2a1a4a;color:#a080d0;padding:2px 7px;border-radius:10px;margin-left:6px;-webkit-text-fill-color:#a080d0">v1.03</span></h1>
+    <p>49 themes · Unique eye styles · Weapons · Real-time animation toggles</p>
   </div>
 </header>
 <div class="layout">
@@ -143,7 +148,7 @@ let baseFrames={}, overlayFrames={};  // {anim:[b64]}, {group:{anim:[b64]}}
 let baseImgs={}, overlayImgs={};      // preloaded Image objects
 let enabledGroups=new Set(['head','eyes','body','scythe','robe','shape']);
 let pingpong=false;
-const GROUPS=['head','eyes','body','scythe','robe','shape','aurora','hellfire','crystal'];
+const GROUPS=['head','eyes','body','scythe','robe','shape','aurora','hellfire','crystal','lightning','smoke','blood','sand','wisps'];
 const ANIMS=['attack','flying','idle'];
 const FPS={attack:12,flying:6,idle:6};
 
@@ -382,5 +387,5 @@ def webhook():
     return "OK", 200
 
 if __name__ == "__main__":
-    print("🎭 AI Skin Maker v1.02 → http://localhost:5050")
+    print("🎭 AI Skin Maker v1.03 → http://localhost:5050")
     app.run(host="0.0.0.0", port=5050, debug=False)
