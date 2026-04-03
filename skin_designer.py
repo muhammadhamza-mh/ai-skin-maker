@@ -51,7 +51,7 @@ THEMES = [
     # ── v1.02 Themes ──
     {"name":"Aurora",    "style":"royal",   "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"aurora_wave",  "hd":(0,20,40),   "hl":(0,180,160),  "bd":(0,30,55),   "bl":(0,220,200),  "rd":(0,15,35),   "rl":(80,255,220), "ac":(0,255,200), "hi":(180,255,240),"s":(80,180,160), "pt":(0,220,180),  "fl":(100,255,220),"border":"ice_border","anim1":"aurora","anim2":"wisps"},
     {"name":"Infernal",  "style":"armor",   "weapon":"trident", "head_anim":"fire_crown",  "body_anim":"hellfire_rise","hd":(50,0,0),    "hl":(180,0,0),    "bd":(70,5,0),    "bl":(220,20,0),   "rd":(35,0,0),    "rl":(160,0,0),    "ac":(255,40,0),  "hi":(255,160,0),  "s":(160,70,40),  "pt":(255,20,0),   "fl":(255,100,0),"border":"fire_border","anim1":"hellfire","anim2":"blood"},
-    {"name":"Crystal",   "style":"suit",    "weapon":"sword",   "head_anim":"ice_crown",   "body_anim":"crystal_shards","hd":(20,30,50),  "hl":(140,180,220),"bd":(25,40,65),  "bl":(180,210,240),"rd":(15,25,45),  "rl":(220,235,255),"ac":(160,200,255),"hi":(240,248,255),"s":(160,185,210),"pt":(130,180,255),"fl":(200,230,255),"border":"ice_border","anim1":"crystal","anim2":"aurora"},
+    {"name":"Crystal",   "style":"suit",    "weapon":"sword",   "head_anim":"ice_crown",   "body_anim":"crystal_shards","hd":(10,20,50),  "hl":(80,160,255), "bd":(15,30,70),  "bl":(120,200,255),"rd":(8,18,45),   "rl":(200,230,255),"ac":(100,180,255),"hi":(255,255,255),"s":(140,175,215),"pt":(80,160,255),"fl":(180,220,255),"border":"plasma_wide","anim1":"crystal","anim2":"iceshatter"},
     # ── v1.03 Themes ──
     {"name":"Wraith",    "style":"tattered","weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(5,5,10),    "hl":(60,60,80),   "bd":(8,8,15),    "bl":(90,90,120),  "rd":(3,3,8),     "rl":(50,50,70),   "ac":(150,150,200),"hi":(220,220,255),"s":(80,80,100),  "pt":(180,180,240),"fl":(200,200,255),"border":"void_border","anim1":"wisps","anim2":"smoke"},
     {"name":"Molten",    "style":"armor",   "weapon":"hammer",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(70,15,0),   "hl":(230,80,0),   "bd":(90,20,0),   "bl":(255,110,0),  "rd":(50,10,0),   "rl":(200,60,0),   "ac":(255,140,0), "hi":(255,220,80), "s":(190,100,50), "pt":(255,100,0),  "fl":(255,180,0),"border":"fire_border","anim1":"hellfire","anim2":"sand"},
@@ -207,10 +207,14 @@ def recolor(img_path, theme, variation):
                 if zone_idx == 0:
                     mapped = mapped * 0.6 + pt_col[c] * 0.4
             elif style == "suit":
-                mapped = mapped * 0.82 + dark[c] * 0.18
-                mapped = np.where(gray > 185, hi_col[c], mapped)
+                # Crystal: high contrast with strong specular highlights
+                mapped = mapped * 0.75 + dark[c] * 0.25
+                # Bright specular on highlights
+                mapped = np.where(gray > 160, hi_col[c] * np.clip((gray-160)/95, 0, 1) + mapped * (1-np.clip((gray-160)/95, 0, 1)), mapped)
+                # Pure white on brightest pixels (specular)
+                mapped = np.where(gray > 220, 255, mapped)
                 if zone_idx == 0:
-                    mapped = mapped * 0.8 + ac_col[c] * 0.2
+                    mapped = mapped * 0.7 + ac_col[c] * 0.3
             elif style == "tattered":
                 noise = np.sin(gray * 0.3) * 10
                 mapped = np.clip(mapped + noise, 0, 255)
@@ -748,30 +752,38 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
                 dot(botx+dx2, boty+wave, ac+(int(120+pulse*80),), 2)
 
     elif body_anim == "crystal_shards":
-        # Floating crystal shards orbiting body
-        for i in range(6):
-            angle = (i/6)*math.pi*2 + t_norm*math.pi*1.5
-            dist = bw//3 + int(math.sin(t_norm*math.pi*2+i)*6)
+        import colorsys
+        # Large orbiting crystal shards with prismatic inner glow
+        for i in range(8):
+            angle = (i/8)*math.pi*2 + t_norm*math.pi*1.2
+            dist = bw//3 + int(math.sin(t_norm*math.pi*2+i*0.8)*10)
             ox = bx + math.cos(angle)*dist
-            oy = by + math.sin(angle)*20
+            oy = by + math.sin(angle)*22
             if on(ox, oy):
-                # Diamond shape
-                r = int(3+pulse*2)
-                draw.polygon([int(ox),int(oy)-r, int(ox)+r,int(oy), int(ox),int(oy)+r, int(ox)-r,int(oy)],
-                             fill=hi+(int(180+pulse*60),))
-                dot(ox, oy, (255,255,255,int(120+pulse*80)), 1)
-        # Ice crack lines on body
-        for i in range(3):
-            cx2 = bx - bw//4 + i*(bw//3)
-            cy2 = by - 10 + i*8
-            crack_len = int(10+pulse*5)
-            angle = math.radians(60+i*30)
+                r = int(5+pulse*3)
+                # Outer glow halo
+                draw.ellipse([int(ox)-r-3,int(oy)-r-3,int(ox)+r+3,int(oy)+r+3],fill=(100,180,255,int(60+pulse*40)))
+                # Crystal diamond body
+                draw.polygon([int(ox),int(oy)-r, int(ox)+r,int(oy), int(ox),int(oy)+r, int(ox)-r,int(oy)],fill=(120,200,255,int(200+pulse*40)))
+                # Prismatic face highlight (shifts hue per shard)
+                hue=(i/8+t_norm*0.3)%1.0; rc,gc,bc=colorsys.hsv_to_rgb(hue,0.4,1.0)
+                draw.polygon([int(ox),int(oy)-r, int(ox)+r,int(oy), int(ox),int(oy)],fill=(int(rc*255),int(gc*255),int(bc*255),int(140+pulse*60)))
+                # Sharp white specular
+                dot(ox-1, oy-r+1, (255,255,255,int(220+pulse*35)), 1)
+        # Deep crack lines with blue-white gradient
+        for i in range(4):
+            cx2 = bx - bw//3 + i*(bw*2//3//3)
+            cy2 = by - 15 + i*10
+            crack_len = int(14+pulse*6)
+            angle = math.radians(50+i*25)
             for j in range(crack_len):
                 kx = cx2 + math.cos(angle)*j
                 ky = cy2 + math.sin(angle)*j
                 if on(kx, ky):
-                    t = j/crack_len
-                    dot(kx, ky, hi+(int(160-t*60),), 1)
+                    t2 = j/crack_len
+                    # Blue core with white edge
+                    dot(kx, ky, (int(80+120*t2),int(160+80*t2),255,int(200-t2*80)), 1)
+                    if j%3==0: dot(kx-1, ky-1, (255,255,255,int(120-t2*80)), 1)
         # Frost sparkles
         for i in range(5):
             a = (i/5)*math.pi*2 + t_norm*math.pi*2
@@ -2147,22 +2159,28 @@ def draw_overlay_group(img, mask, fd, theme, frame_idx, total, anim, group):
             if on(botx+dx2,boty+wave): dot(botx+dx2,boty+wave,ac+(int(120+pulse*80),),2)
 
     elif group == "crystal":
-        # Crystal shards overlay
+        import colorsys
         t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
-        for i in range(6):
-            angle=(i/6)*math.pi*2+t_norm*math.pi*1.5
-            dist=bw//3+int(math.sin(t_norm*math.pi*2+i)*6)
-            ox=bx+math.cos(angle)*dist; oy=by+math.sin(angle)*20
+        for i in range(8):
+            angle=(i/8)*math.pi*2+t_norm*math.pi*1.2
+            dist=bw//3+int(math.sin(t_norm*math.pi*2+i*0.8)*10)
+            ox=bx+math.cos(angle)*dist; oy=by+math.sin(angle)*22
             if on(ox,oy):
-                r=int(3+pulse*2)
-                draw.polygon([int(ox),int(oy)-r,int(ox)+r,int(oy),int(ox),int(oy)+r,int(ox)-r,int(oy)],fill=hi+(int(180+pulse*60),))
-                dot(ox,oy,(255,255,255,int(120+pulse*80)),1)
-        for i in range(3):
-            cx2=bx-bw//4+i*(bw//3); cy2=by-10+i*8
-            crack_len=int(10+pulse*5); angle=math.radians(60+i*30)
+                r=int(5+pulse*3)
+                draw.ellipse([int(ox)-r-3,int(oy)-r-3,int(ox)+r+3,int(oy)+r+3],fill=(100,180,255,int(60+pulse*40)))
+                draw.polygon([int(ox),int(oy)-r,int(ox)+r,int(oy),int(ox),int(oy)+r,int(ox)-r,int(oy)],fill=(120,200,255,int(200+pulse*40)))
+                hue=(i/8+t_norm*0.3)%1.0; rc,gc,bc=colorsys.hsv_to_rgb(hue,0.4,1.0)
+                draw.polygon([int(ox),int(oy)-r,int(ox)+r,int(oy),int(ox),int(oy)],fill=(int(rc*255),int(gc*255),int(bc*255),int(140+pulse*60)))
+                dot(ox-1,oy-r+1,(255,255,255,int(220+pulse*35)),1)
+        for i in range(4):
+            cx2=bx-bw//3+i*(bw*2//3//3); cy2=by-15+i*10
+            crack_len=int(14+pulse*6); angle=math.radians(50+i*25)
             for j in range(crack_len):
                 kx=cx2+math.cos(angle)*j; ky=cy2+math.sin(angle)*j
-                if on(kx,ky): dot(kx,ky,hi+(int(160-j/crack_len*60),),1)
+                if on(kx,ky):
+                    t2=j/crack_len
+                    dot(kx,ky,(int(80+120*t2),int(160+80*t2),255,int(200-t2*80)),1)
+                    if j%3==0: dot(kx-1,ky-1,(255,255,255,int(120-t2*80)),1)
         for i in range(5):
             a=(i/5)*math.pi*2+t_norm*math.pi*2
             fx2=bx+math.cos(a)*bw//4; fy2=by+math.sin(a)*14
