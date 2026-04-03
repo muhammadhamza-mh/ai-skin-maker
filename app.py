@@ -95,8 +95,8 @@ select:focus,input:focus{border-color:#7030e0}
 <body>
 <header>
   <div>
-    <h1>⚔️ AI GrimReaper Skin Maker <span style="font-size:0.65rem;background:#2a1a4a;color:#a080d0;padding:2px 7px;border-radius:10px;margin-left:6px;-webkit-text-fill-color:#a080d0">v1.03</span></h1>
-    <p>49 themes · Unique eye styles · Weapons · Real-time animation toggles</p>
+    <h1>⚔️ AI GrimReaper Skin Maker <span style="font-size:0.65rem;background:#2a1a4a;color:#a080d0;padding:2px 7px;border-radius:10px;margin-left:6px;-webkit-text-fill-color:#a080d0">v1.04</span></h1>
+    <p>55 themes · Unique eye styles · Weapons · Real-time animation toggles</p>
   </div>
 </header>
 <div class="layout">
@@ -186,7 +186,20 @@ select:focus,input:focus{border-color:#7030e0}
         <label class="brad" data-b="electric_border"><input type="radio" name="border" value="electric_border" onchange="onBorderChange('electric_border')"> ⚡ Electric</label>
         <label class="brad" data-b="nature_border"><input type="radio" name="border" value="nature_border" onchange="onBorderChange('nature_border')"> 🌿 Nature</label>
         <label class="brad" data-b="royal"><input type="radio" name="border" value="royal" onchange="onBorderChange('royal')"> 👑 Royal</label>
+        <label class="brad" data-b="flaming_wide"><input type="radio" name="border" value="flaming_wide" onchange="onBorderChange('flaming_wide')"> 🔥 Flaming Wide</label>
+        <label class="brad" data-b="electric_wide"><input type="radio" name="border" value="electric_wide" onchange="onBorderChange('electric_wide')"> ⚡ Electric Wide</label>
+        <label class="brad" data-b="gold_wide"><input type="radio" name="border" value="gold_wide" onchange="onBorderChange('gold_wide')"> 🥇 Gold Wide</label>
+        <label class="brad" data-b="rainbow_wide"><input type="radio" name="border" value="rainbow_wide" onchange="onBorderChange('rainbow_wide')"> 🌈 Rainbow Wide</label>
+        <label class="brad" data-b="chaos_wide"><input type="radio" name="border" value="chaos_wide" onchange="onBorderChange('chaos_wide')"> 🌀 Chaos Wide</label>
         <button onclick="openMerge()" style="padding:3px 10px;border-radius:8px;background:#2a1a4a;border:1px solid #5030a0;color:#a080d0;font-size:0.7rem;cursor:pointer">⚗️ Merge 2</button>
+      </div>
+    </div>
+
+    <!-- Special FX Toggle -->
+    <div style="padding:6px 16px;background:#0a0a18;border-bottom:1px solid #1e1e35">
+      <div style="font-size:0.7rem;color:#ff80a0;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">✨ Special FX <span style="font-size:0.6rem;color:#555;font-weight:400">(theme-specific, always active)</span></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <div id="sfx_info" style="font-size:0.72rem;color:#888;font-style:italic">Select a theme to see its special FX</div>
       </div>
     </div>
 
@@ -238,7 +251,7 @@ const FPS={attack:12,flying:6,idle:6};
 
 // Theme data from server
 const THEME_DATA = {
-  {% for t in themes %}"{{t.name}}":{"anim1":"{{t.get('anim1','')}}","anim2":"{{t.get('anim2','')}}","border":"{{t.get('border','')}}"},
+  {% for t in themes %}"{{t.name}}":{"anim1":"{{t.get('anim1','')}}","anim2":"{{t.get('anim2','')}}","border":"{{t.get('border','')}}","special1":"{{t.get('special1','')}}","special2":"{{t.get('special2','')}}"},
   {% endfor %}
 };
 
@@ -268,6 +281,13 @@ function onThemeChange(name){
   if(td.border){
     activeBorder=td.border; mergedBorder=null;
     document.querySelectorAll('input[name="border"]').forEach(r=>r.checked=(r.value===td.border));
+  }
+  // Show special FX info
+  const sfxEl=document.getElementById('sfx_info');
+  if(sfxEl){
+    const sfxNames={'sparkle_trail':'✨ Sparkle Trail','star_burst_fx':'⭐ Star Burst','gadget_glow':'🔵 Gadget Glow','pocket_sparkle':'💙 Pocket Sparkle','troll_grin':'😏 Troll Grin','chaos_sparks':'🌀 Chaos Sparks','freestyle_trail':'🎨 Freestyle Trail','color_burst':'🌈 Color Burst','epic_aura':'💥 Epic Aura','power_surge':'⚡ Power Surge','legendary_crown':'👑 Legendary Crown','divine_rays':'✨ Divine Rays'};
+    const s1=sfxNames[td.special1]||td.special1; const s2=sfxNames[td.special2]||td.special2;
+    sfxEl.innerHTML=(s1||s2)?`<span style="color:#ff80a0">${s1||''}</span>${s1&&s2?' + ':''}<span style="color:#ff80a0">${s2||''}</span>`:'<span style="color:#555">No special FX for this theme</span>';
   }
   // Refresh toggle UI
   GROUPS.forEach(g=>{
@@ -541,5 +561,5 @@ def webhook():
     return "OK", 200
 
 if __name__ == "__main__":
-    print("🎭 AI Skin Maker v1.03 → http://localhost:5050")
+    print("🎭 AI Skin Maker v1.04 → http://localhost:5050")
     app.run(host="0.0.0.0", port=5050, debug=False)

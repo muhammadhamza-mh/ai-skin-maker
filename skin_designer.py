@@ -66,6 +66,13 @@ THEMES = [
     {"name":"Wisp",      "style":"robe",    "weapon":"staff",   "head_anim":"petal_crown", "body_anim":"bubble_rise",  "hd":(10,20,30),  "hl":(60,120,180), "bd":(15,28,42),  "bl":(80,160,220), "rd":(8,15,25),   "rl":(120,180,240),"ac":(140,200,255),"hi":(220,240,255),"s":(120,160,200),"pt":(100,180,255),"fl":(180,220,255),"border":"ice_border","anim1":"wisps","anim2":"aurora"},
     {"name":"Reaper2",   "style":"tattered","weapon":"scythe",  "head_anim":"fire_crown",  "body_anim":"lava_cracks",  "hd":(20,0,20),   "hl":(100,0,100),  "bd":(28,0,28),   "bl":(140,0,140),  "rd":(15,0,15),   "rl":(180,0,180),  "ac":(220,0,220), "hi":(255,100,255),"s":(140,80,140), "pt":(200,0,200),  "fl":(255,80,255),"border":"void_border","anim1":"blood","anim2":"wisps"},
     {"name":"Blizzard",  "style":"royal",   "weapon":"staff",   "head_anim":"ice_crown",   "body_anim":"snowflakes",   "hd":(0,10,30),   "hl":(40,100,180), "bd":(0,15,40),   "bl":(60,140,210), "rd":(0,8,22),    "rl":(180,210,240),"ac":(120,180,255),"hi":(220,240,255),"s":(140,170,210),"pt":(100,160,255),"fl":(180,220,255),"border":"ice_border","anim1":"crystal","anim2":"aurora"},
+    # ── v1.04 Themes ──
+    {"name":"Dora",      "style":"royal",   "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"petal_fall",   "hd":(60,10,80),  "hl":(180,40,220), "bd":(80,15,100), "bl":(220,60,255), "rd":(40,8,60),   "rl":(200,100,240),"ac":(255,80,220), "hi":(255,200,255),"s":(180,120,180),"pt":(240,60,200),"fl":(255,160,240),"border":"flaming_wide","anim1":"wisps","anim2":"aurora","special1":"sparkle_trail","special2":"star_burst_fx"},
+    {"name":"Doraemon",  "style":"suit",    "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"bubble_rise",  "hd":(0,60,160),  "hl":(0,140,220),  "bd":(0,80,180),  "bl":(0,180,240),  "rd":(0,50,140),  "rl":(100,200,255),"ac":(0,180,255),  "hi":(180,240,255),"s":(100,160,200),"pt":(0,200,255),"fl":(100,220,255),"border":"electric_wide","anim1":"crystal","anim2":"lightning","special1":"gadget_glow","special2":"pocket_sparkle"},
+    {"name":"TrollFace", "style":"tattered","weapon":"axe",     "head_anim":"neon_ring",   "body_anim":"drip_dots",    "hd":(20,20,20),  "hl":(80,80,80),   "bd":(25,25,25),  "bl":(100,100,100),"rd":(15,15,15),  "rl":(60,60,60),   "ac":(200,200,200),"hi":(255,255,255),"s":(120,120,120),"pt":(180,180,180),"fl":(220,220,220),"border":"chaos_wide","anim1":"smoke","anim2":"blood","special1":"troll_grin","special2":"chaos_sparks"},
+    {"name":"FreeStyle", "style":"ninja",   "weapon":"katana",  "head_anim":"void_spiral", "body_anim":"aurora_wave",  "hd":(20,0,40),   "hl":(120,0,200),  "bd":(30,0,55),   "bl":(160,20,240), "rd":(15,0,30),   "rl":(100,0,180),  "ac":(200,50,255), "hi":(240,150,255),"s":(140,80,160),"pt":(180,30,255),"fl":(220,100,255),"border":"rainbow_wide","anim1":"wisps","anim2":"sand","special1":"freestyle_trail","special2":"color_burst"},
+    {"name":"Epic",      "style":"armor",   "weapon":"sword",   "head_anim":"fire_crown",  "body_anim":"hellfire_rise","hd":(60,0,10),   "hl":(220,20,40),  "bd":(80,5,15),   "bl":(255,40,60),  "rd":(45,0,8),    "rl":(200,15,30),  "ac":(255,50,80),  "hi":(255,180,200),"s":(180,80,100),"pt":(255,30,60),"fl":(255,120,150),"border":"flaming_wide","anim1":"hellfire","anim2":"lightning","special1":"epic_aura","special2":"power_surge"},
+    {"name":"Legendary", "style":"royal",   "weapon":"staff",   "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(50,35,0),   "hl":(200,160,0),  "bd":(70,50,0),   "bl":(240,200,20), "rd":(35,25,0),   "rl":(220,180,0),  "ac":(255,220,0),  "hi":(255,255,180),"s":(200,170,80),"pt":(255,200,0),"fl":(255,240,100),"border":"gold_wide","anim1":"aurora","anim2":"crystal","special1":"legendary_crown","special2":"divine_rays"},
 ]
 
 # Exact per-frame data extracted from pixel analysis
@@ -1669,7 +1676,144 @@ def draw_shape_fx(img, mask, fd, theme, frame_idx, total, border_style=None):
         node_pos=(t_norm+i/8)%1.0
         ex,ey=edge[int(node_pos*n)]
         draw.ellipse([ex-2,ey-2,ex+2,ey+2],fill=hi+(int(180+60*math.sin(t_norm*math.pi*2+i)),))
-        draw.point((ex,ey),fill=(255,255,255,int(200+pulse*55)))
+
+    # ── WIDE / HIGHLIGHTED BORDER STYLES ──────────────────────────────────
+    if style == "flaming_wide":
+        for idx,(ex,ey) in enumerate(edge):
+            pos=idx/n; flicker=math.sin(pos*math.pi*8+t_norm*math.pi*6)
+            for w in range(4):
+                nx,ny=ex+random.randint(-w,w),ey+random.randint(-w,w)
+                if 0<=nx<W and 0<=ny<H:
+                    draw.point((nx,ny),fill=(255,int(60+120*abs(flicker)),0,int(220-w*40)))
+            if flicker>0.5: draw.ellipse([ex-3,ey-5,ex+3,ey+1],fill=(255,220,0,int(flicker*180)))
+    elif style == "electric_wide":
+        for idx,(ex,ey) in enumerate(edge):
+            pos=idx/n; zap=math.sin(pos*math.pi*14+t_norm*math.pi*10)
+            for w in range(3):
+                nx,ny=ex+random.randint(-w,w),ey+random.randint(-w,w)
+                if 0<=nx<W and 0<=ny<H:
+                    draw.point((nx,ny),fill=(int(20+40*abs(zap)),int(100+80*abs(zap)),int(180+60*abs(zap)),int(200-w*50)))
+            if zap>0.8: draw.ellipse([ex-3,ey-3,ex+3,ey+3],fill=(255,255,255,int(zap*200)))
+    elif style == "gold_wide":
+        for idx,(ex,ey) in enumerate(edge):
+            pos=idx/n; wave3=math.sin(pos*math.pi*6+t_norm*math.pi*4)
+            for w in range(4):
+                nx,ny=ex+random.randint(-w,w),ey+random.randint(-w,w)
+                if 0<=nx<W and 0<=ny<H:
+                    t_c=(wave3+1)/2
+                    draw.point((nx,ny),fill=(int(200+40*t_c),int(150+80*t_c),int(20*t_c),int(200-w*40)))
+            if int(pos*n)%18==0: draw.ellipse([ex-4,ey-4,ex+4,ey+4],fill=(255,220,50,int(200+pulse*55)))
+    elif style == "rainbow_wide":
+        import colorsys
+        for idx,(ex,ey) in enumerate(edge):
+            pos=idx/n; hue=(pos+t_norm*0.5)%1.0
+            r2,g2,b2=colorsys.hsv_to_rgb(hue,1.0,1.0)
+            for w in range(3):
+                nx,ny=ex+random.randint(-w,w),ey+random.randint(-w,w)
+                if 0<=nx<W and 0<=ny<H:
+                    draw.point((nx,ny),fill=(int(r2*255),int(g2*255),int(b2*255),int(200-w*50)))
+    elif style == "chaos_wide":
+        import colorsys
+        for idx,(ex,ey) in enumerate(edge):
+            pos=idx/n; hue=(pos*3+t_norm*2)%1.0
+            r2,g2,b2=colorsys.hsv_to_rgb(hue,1.0,1.0)
+            for w in range(4):
+                nx,ny=ex+random.randint(-w-1,w+1),ey+random.randint(-w-1,w+1)
+                if 0<=nx<W and 0<=ny<H:
+                    draw.point((nx,ny),fill=(int(r2*255),int(g2*255),int(b2*255),int(180-w*30)))
+
+
+def draw_special_fx(img, mask, fd, theme, frame_idx, total, special_key):
+    """Per-theme special FX always rendered."""
+    draw = ImageDraw.Draw(img)
+    ac=theme["ac"]; hi=theme["hi"]; pt=theme["pt"]; fl=theme.get("fl",(200,200,200))
+    t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
+    W,H=img.width,img.height
+    bx,by=fd["body"]; bw=fd["body_w"]
+    htx,hty=fd["head_top"]
+    def on(x,y): xi,yi=int(x),int(y); return 0<=xi<W and 0<=yi<H and mask[yi,xi]
+    def dot(x,y,c,r=1):
+        xi,yi=int(x),int(y)
+        if 0<=xi<W and 0<=yi<H: draw.ellipse([xi-r,yi-r,xi+r,yi+r],fill=c)
+    if special_key=="sparkle_trail":
+        for i in range(12):
+            a=(i/12)*math.pi*2+t_norm*math.pi*3
+            ox=bx+math.cos(a)*(bw//2); oy=by+math.sin(a)*25
+            if on(ox,oy): dot(ox,oy,(255,200,255,int(160+pulse*80)),int(2+pulse))
+    elif special_key=="star_burst_fx":
+        for i in range(5):
+            a=(i/5)*math.pi*2+t_norm*math.pi*2
+            for r2 in [8,14,20]:
+                ox=htx+math.cos(a)*r2; oy=hty-5+math.sin(a)*r2*0.4
+                dot(ox,oy,hi+(int(120+pulse*100),),int(2+pulse*(1-r2/25)))
+    elif special_key=="gadget_glow":
+        if on(bx,by-5):
+            draw.ellipse([bx-10,by-15,bx+10,by+5],fill=(0,180,255,int(80+pulse*60)))
+            draw.ellipse([bx-6,by-11,bx+6,by+1],fill=(0,220,255,int(120+pulse*80)))
+            dot(bx,by-5,(255,255,255,int(200+pulse*55)),2)
+    elif special_key=="pocket_sparkle":
+        for i in range(6):
+            a=(i/6)*math.pi*2+t_norm*math.pi*4
+            ox=bx+math.cos(a)*12; oy=by-5+math.sin(a)*8
+            dot(ox,oy,(0,220,255,int(140+pulse*80)),int(1+pulse))
+    elif special_key=="troll_grin":
+        fx,fy=fd["face"]
+        for dx2 in range(-8,9,2):
+            if on(fx+dx2,fy+8): dot(fx+dx2,fy+8,(255,255,255,int(180+pulse*60)),1)
+        for dx2 in [-6,-3,0,3,6]:
+            if on(fx+dx2,fy+10): dot(fx+dx2,fy+10,(0,0,0,220),1)
+    elif special_key=="chaos_sparks":
+        import colorsys
+        for i in range(8):
+            a=(i/8)*math.pi*2+t_norm*math.pi*5
+            hue=(t_norm+i/8)%1.0; r2,g2,b2=colorsys.hsv_to_rgb(hue,1.0,1.0)
+            ox=bx+math.cos(a)*bw//3; oy=by+math.sin(a)*20
+            if on(ox,oy): dot(ox,oy,(int(r2*255),int(g2*255),int(b2*255),int(160+pulse*80)),int(2+pulse))
+    elif special_key=="freestyle_trail":
+        import colorsys
+        for i in range(16):
+            a=(i/16)*math.pi*2+t_norm*math.pi*2
+            hue=(i/16+t_norm*0.3)%1.0; r2,g2,b2=colorsys.hsv_to_rgb(hue,1.0,1.0)
+            ox=bx+math.cos(a)*(bw//3+i%4*3); oy=by+math.sin(a)*22
+            if on(ox,oy): dot(ox,oy,(int(r2*255),int(g2*255),int(b2*255),int(140+pulse*80)),2)
+    elif special_key=="color_burst":
+        import colorsys
+        for i in range(6):
+            phase=(t_norm+i/6)%1.0; r2=int(phase*bw//2)
+            hue=(i/6+t_norm*0.5)%1.0; rc,gc,bc=colorsys.hsv_to_rgb(hue,1.0,1.0)
+            alpha=int(180*math.sin(phase*math.pi))
+            if alpha>20:
+                for a_deg in range(0,360,20):
+                    a=math.radians(a_deg)
+                    ox=bx+math.cos(a)*r2; oy=by+math.sin(a)*r2*0.5
+                    if on(ox,oy): dot(ox,oy,(int(rc*255),int(gc*255),int(bc*255),alpha),1)
+    elif special_key=="epic_aura":
+        for i in range(3):
+            phase=(t_norm*2+i/3)%1.0; ease=max(0,math.sin(phase*math.pi))
+            ring_r=int(ease*bw*0.45); alpha=int(200*ease)
+            if alpha>20:
+                for a_deg in range(0,360,8):
+                    a=math.radians(a_deg)
+                    ox=bx+math.cos(a)*ring_r; oy=by+math.sin(a)*ring_r*0.5
+                    if on(ox,oy): dot(ox,oy,ac+(alpha,),2)
+    elif special_key=="power_surge":
+        for i in range(4):
+            a=(i/4)*math.pi*2+t_norm*math.pi*4
+            for r2 in [10,18,26]:
+                ox=bx+math.cos(a)*r2; oy=by+math.sin(a)*r2*0.5
+                if on(ox,oy): dot(ox,oy,hi+(int(100+pulse*120*(1-r2/30)),),int(2-r2//20))
+    elif special_key=="legendary_crown":
+        for i in range(8):
+            a=math.radians(i*45+t_norm*360)
+            for r2 in [14,20]:
+                ox=htx+math.cos(a)*r2; oy=hty-3+math.sin(a)*r2*0.35
+                dot(ox,oy,(255,220,0,int(160+pulse*80*(1-r2/25))),int(2+pulse*(1-r2/25)))
+    elif special_key=="divine_rays":
+        for i in range(6):
+            a=math.radians(i*60+t_norm*30); ray_len=int(20+pulse*10)
+            for r2 in range(0,ray_len,3):
+                ox=htx+math.cos(a)*r2; oy=hty-5+math.sin(a)*r2*0.3
+                dot(ox,oy,hi+(int(200*(1-r2/ray_len)),),1)
 
 
 def draw_overlay_group(img, mask, fd, theme, frame_idx, total, anim, group):
@@ -1962,7 +2106,7 @@ def generate_skin(theme_name=None, seed=None, shape_fx=False):
 
     # Named overlay groups — each is a transparent RGBA layer
     # Keys match what the sidebar toggles
-    BORDER_STYLES = ["armor","fire_border","ice_border","void_border","gold_border","rainbow_border","electric_border","nature_border","royal"]
+    BORDER_STYLES = ["armor","fire_border","ice_border","void_border","gold_border","rainbow_border","electric_border","nature_border","royal","flaming_wide","electric_wide","gold_wide","rainbow_wide","chaos_wide"]
     overlay_groups = ["head", "eyes", "body", "scythe", "robe", "shape", "aurora", "hellfire", "crystal", "lightning", "smoke", "blood", "sand", "wisps"] + ["shape_"+b for b in BORDER_STYLES]
     overlays_b64 = {g: {} for g in overlay_groups}
 
@@ -1987,6 +2131,9 @@ def generate_skin(theme_name=None, seed=None, shape_fx=False):
             full = base_img.copy()
             add_cosmetics(full, mask, fd, theme, idx, total, anim)
             if shape_fx: draw_shape_fx(full, mask, fd, theme, idx, total, theme.get("border"))
+            # Draw special FX (always on, not toggleable)
+            for sfx_key in [theme.get("special1"), theme.get("special2")]:
+                if sfx_key: draw_special_fx(full, mask, fd, theme, idx, total, sfx_key)
             full.save(os.path.join(dst_dir, fname), "PNG")
             buf = io.BytesIO(); full.save(buf,"PNG")
             frames_b64[anim].append(base64.b64encode(buf.getvalue()).decode())
