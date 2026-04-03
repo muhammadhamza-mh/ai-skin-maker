@@ -1726,6 +1726,59 @@ def draw_overlay_group(img, mask, fd, theme, frame_idx, total, anim, group):
     elif group == "shape":
         draw_shape_fx(img,mask,fd,theme,frame_idx,total)
 
+    elif group == "aurora":
+        # Aurora wave overlay — independent of body_anim
+        t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
+        colors=[ac,hi,pt,fl,(255,255,255)]
+        for band in range(5):
+            phase=(t_norm+band/5)%1.0
+            wave_y=int(boty-phase*(boty-(by-30)))
+            width=int(bw*0.6*math.sin(phase*math.pi))
+            for dx2 in range(-width//2,width//2,2):
+                c=colors[band%len(colors)]; alpha=int(180*math.sin(phase*math.pi))
+                if on(bx+dx2,wave_y): dot(bx+dx2,wave_y,c+(alpha,),2)
+        for i in range(8):
+            angle=(i/8)*math.pi*2+t_norm*math.pi*3
+            ox=bx+math.cos(angle)*bw//3; oy=by+math.sin(angle)*22
+            if on(ox,oy): dot(ox,oy,hi+(int(100+pulse*120),),int(1+pulse))
+
+    elif group == "hellfire":
+        # Hellfire columns overlay
+        t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
+        for i in range(6):
+            col_x=botx-botw//3+i*(botw*2//3//5)
+            height=int(20+math.sin(t_norm*math.pi*2+i*1.1)*12)
+            for dy2 in range(height):
+                t=dy2/height; c=(int(255*(1-t*0.3)),int(40+80*t),0)
+                if on(col_x,boty-dy2): dot(col_x,boty-dy2,c+(int(200-t*80),),int(2-t))
+            spark_rise=(frame_idx*(3+i)*4+i*17)%40
+            if on(col_x,boty-height-spark_rise): dot(col_x,boty-height-spark_rise,pt+(int(200-spark_rise*4),),2)
+        for dx2 in range(-botw//2,botw//2,3):
+            wave=int(3*math.sin(dx2*0.3+t_norm*math.pi*4))
+            if on(botx+dx2,boty+wave): dot(botx+dx2,boty+wave,ac+(int(120+pulse*80),),2)
+
+    elif group == "crystal":
+        # Crystal shards overlay
+        t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
+        for i in range(6):
+            angle=(i/6)*math.pi*2+t_norm*math.pi*1.5
+            dist=bw//3+int(math.sin(t_norm*math.pi*2+i)*6)
+            ox=bx+math.cos(angle)*dist; oy=by+math.sin(angle)*20
+            if on(ox,oy):
+                r=int(3+pulse*2)
+                draw.polygon([int(ox),int(oy)-r,int(ox)+r,int(oy),int(ox),int(oy)+r,int(ox)-r,int(oy)],fill=hi+(int(180+pulse*60),))
+                dot(ox,oy,(255,255,255,int(120+pulse*80)),1)
+        for i in range(3):
+            cx2=bx-bw//4+i*(bw//3); cy2=by-10+i*8
+            crack_len=int(10+pulse*5); angle=math.radians(60+i*30)
+            for j in range(crack_len):
+                kx=cx2+math.cos(angle)*j; ky=cy2+math.sin(angle)*j
+                if on(kx,ky): dot(kx,ky,hi+(int(160-j/crack_len*60),),1)
+        for i in range(5):
+            a=(i/5)*math.pi*2+t_norm*math.pi*2
+            fx2=bx+math.cos(a)*bw//4; fy2=by+math.sin(a)*14
+            if on(fx2,fy2): dot(fx2,fy2,(220,240,255,int(140+pulse*80)),int(2+pulse))
+
 
 def generate_skin(theme_name=None, seed=None, shape_fx=False):
     if seed is not None: random.seed(seed)
@@ -1739,7 +1792,7 @@ def generate_skin(theme_name=None, seed=None, shape_fx=False):
 
     # Named overlay groups — each is a transparent RGBA layer
     # Keys match what the sidebar toggles
-    overlay_groups = ["head", "eyes", "body", "scythe", "robe", "shape"]
+    overlay_groups = ["head", "eyes", "body", "scythe", "robe", "shape", "aurora", "hellfire", "crystal"]
     overlays_b64 = {g: {} for g in overlay_groups}
 
     for anim in ["attack","flying","idle"]:

@@ -6,12 +6,15 @@ from skin_designer import generate_skin, create_zip, THEMES
 app = Flask(__name__)
 
 SIDEBAR_ITEMS = [
-    ("head",   "👑", "Head & Crown"),
-    ("eyes",   "👁️", "Eyes & Face"),
-    ("body",   "✨", "Body FX"),
-    ("scythe", "⚔️", "Scythe & Chain"),
-    ("robe",   "🌟", "Robe & Trim"),
-    ("shape",  "🔮", "Shape Border"),
+    ("head",     "👑", "Head & Crown"),
+    ("eyes",     "👁️", "Eyes & Face"),
+    ("body",     "✨", "Body FX"),
+    ("scythe",   "⚔️", "Scythe & Chain"),
+    ("robe",     "🌟", "Robe & Trim"),
+    ("shape",    "🔮", "Shape Border"),
+    ("aurora",   "🌌", "Aurora Wave"),
+    ("hellfire", "🔥", "Hellfire Rise"),
+    ("crystal",  "💎", "Crystal Shards"),
 ]
 
 HTML = """<!DOCTYPE html>
@@ -140,7 +143,7 @@ let baseFrames={}, overlayFrames={};  // {anim:[b64]}, {group:{anim:[b64]}}
 let baseImgs={}, overlayImgs={};      // preloaded Image objects
 let enabledGroups=new Set(['head','eyes','body','scythe','robe','shape']);
 let pingpong=false;
-const GROUPS=['head','eyes','body','scythe','robe','shape'];
+const GROUPS=['head','eyes','body','scythe','robe','shape','aurora','hellfire','crystal'];
 const ANIMS=['attack','flying','idle'];
 const FPS={attack:12,flying:6,idle:6};
 
@@ -364,6 +367,19 @@ def get_skin(skin_id):
 def download(skin_id):
     buf = create_zip(skin_id)
     return send_file(buf, mimetype="application/zip", as_attachment=True, download_name=f"{skin_id}.zip")
+
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    """GitHub webhook — pulls latest code and reloads."""
+    import subprocess, hmac, hashlib
+    secret = b"evo_deploy_secret"
+    sig = request.headers.get("X-Hub-Signature-256","")
+    body = request.get_data()
+    expected = "sha256=" + hmac.new(secret, body, hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(sig, expected):
+        return "Forbidden", 403
+    subprocess.Popen(["git", "-C", os.path.dirname(__file__), "pull", "origin", "main"])
+    return "OK", 200
 
 if __name__ == "__main__":
     print("🎭 AI Skin Maker v1.02 → http://localhost:5050")
