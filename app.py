@@ -555,7 +555,36 @@ function togglePP(){
   if(curId) startAnims();
 }
 
-function dl(){if(curId)window.location.href='/download/'+curId;}
+async function dl(){
+  if(!curId) return;
+  const btn=document.getElementById('dlBtn');
+  btn.disabled=true; btn.textContent='⏳ Exporting...';
+  try {
+    // Load JSZip
+    if(!window.JSZip){
+      await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});
+    }
+    const zip=new JSZip();
+    // Export each anim frame as composited canvas PNG
+    for(const anim of ANIMS){
+      const n=baseFrames[anim]?baseFrames[anim].length:0;
+      for(let i=0;i<n;i++){
+        const c=compositeFrame(anim,i);
+        if(!c) continue;
+        const blob=await new Promise(res=>c.toBlob(res,'image/png'));
+        const ab=await blob.arrayBuffer();
+        zip.file(`${anim}/${i+1}.png`, ab);
+      }
+    }
+    const zipBlob=await zip.generateAsync({type:'blob'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(zipBlob);
+    a.download=`${curId}.zip`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } catch(e){ alert('Export failed: '+e.message); }
+  btn.disabled=false; btn.textContent='⬇ Download ZIP';
+}
 
 function addHist(id,name){
   hist.unshift({id,name}); if(hist.length>10)hist.pop();
