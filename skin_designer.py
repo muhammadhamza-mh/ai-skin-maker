@@ -1559,6 +1559,166 @@ def draw_eyes_and_face(draw, mask, hfx, hfy, theme, pulse, pulse2, t_norm, anim,
             dot(shimmer_x,hfy+dy,face_c+(int(40+pulse*30),),1)
 
 
+def draw_theme_face_base(img, mask, fd, theme, frame_idx, total):
+    """Paint theme-specific mouth/teeth/body markings directly onto base image.
+    Called after recolor, before cosmetics. Changes the actual skin appearance."""
+    draw = ImageDraw.Draw(img)
+    name = theme["name"]
+    ac=theme["ac"]; hi=theme["hi"]; pt=theme["pt"]; fl=theme.get("fl",(200,200,200))
+    t_norm=frame_idx/max(total-1,1); pulse=0.5+0.5*math.sin(t_norm*math.pi*2)
+    W,H=img.width,img.height
+    fx,fy=fd["face"]; hfx,hfy=fd.get("hface",fd["face"])
+    bx,by=fd["body"]; bw=fd["body_w"]
+    botx,boty=fd["bot"]; botw=fd["bot_w"]
+
+    def on(x,y): xi,yi=int(x),int(y); return 0<=xi<W and 0<=yi<H and mask[yi,xi]
+    def dot(x,y,c,r=1):
+        xi,yi=int(x),int(y)
+        if 0<=xi<W and 0<=yi<H: draw.ellipse([xi-r,yi-r,xi+r,yi+r],fill=c)
+    def rect(x0,y0,x1,y1,c): draw.rectangle([int(x0),int(y0),int(x1),int(y1)],fill=c)
+
+    # ── MOUTH / TEETH per theme ────────────────────────────────────────────
+    mouth_y = hfy + 10  # below eye level
+
+    if name in ("Inferno","Crimson","Lava","Magma","Demon","Epic","Infernal"):
+        # Fanged demon mouth — jagged red grin
+        rect(hfx-10, mouth_y, hfx+10, mouth_y+5, (120,0,0,220))
+        for i,dx in enumerate([-8,-4,0,4,8]):
+            fang_h = [5,7,9,7,5][i]
+            draw.polygon([int(hfx+dx-2),int(mouth_y), int(hfx+dx+2),int(mouth_y), int(hfx+dx),int(mouth_y+fang_h)],
+                         fill=(240,240,240,230))
+        # Blood drip from corner
+        for d in range(4):
+            dot(hfx-10, mouth_y+5+d, (180,0,0,int(200-d*40)), 1)
+
+    elif name in ("TrollFace",):
+        # Wide troll grin — big white teeth
+        rect(hfx-14, mouth_y-2, hfx+14, mouth_y+8, (0,0,0,200))
+        for i in range(7):
+            tx = hfx-12+i*4
+            rect(tx, mouth_y, tx+3, mouth_y+7, (255,255,255,240))
+        # Upturned mouth corners
+        dot(hfx-14, mouth_y-2, (0,0,0,200), 2)
+        dot(hfx+14, mouth_y-2, (0,0,0,200), 2)
+
+    elif name in ("Frost","Arctic","Blizzard","Crystal","Xmas"):
+        # Frozen cracked mouth — blue-white
+        for dx in range(-8,9,2):
+            if on(hfx+dx, mouth_y): dot(hfx+dx, mouth_y, (180,220,255,200), 1)
+        # Ice shard teeth
+        for i,dx in enumerate([-6,-2,2,6]):
+            draw.polygon([int(hfx+dx-1),int(mouth_y), int(hfx+dx+1),int(mouth_y), int(hfx+dx),int(mouth_y+4)],
+                         fill=(220,240,255,220))
+
+    elif name in ("Toxic","Plague","Plague2","Venom"):
+        # Dripping toxic grin
+        rect(hfx-9, mouth_y, hfx+9, mouth_y+4, (0,0,0,200))
+        for i,dx in enumerate([-6,-2,2,6]):
+            dot(hfx+dx, mouth_y+4, (80,220,40,220), 2)
+            dot(hfx+dx, mouth_y+7, (60,180,30,180), 1)
+
+    elif name in ("Void","Phantom","Abyssal","Shadow","Wraith","Specter","Specter2","Reaper2"):
+        # Void mouth — dark void with purple wisps
+        draw.ellipse([hfx-10,mouth_y-3,hfx+10,mouth_y+6],fill=(0,0,0,240))
+        for i in range(4):
+            a=(i/4)*math.pi+t_norm*math.pi*2
+            dot(hfx+math.cos(a)*6, mouth_y+1+math.sin(a)*3, pt+(int(140+pulse*80),), 1)
+
+    elif name in ("Gold","Lunar","Sandstorm","Titan","Legendary","Solaris"):
+        # Regal golden smile
+        for dx in range(-8,9,2):
+            if on(hfx+dx, mouth_y+3): dot(hfx+dx, mouth_y+3, (200,160,0,180), 1)
+        # Gold tooth
+        rect(hfx-2, mouth_y, hfx+2, mouth_y+5, (255,200,0,220))
+
+    elif name in ("Neon","Cyber","Specter","Electric","Thunder","Storm"):
+        # Digital scan-line mouth
+        for dx in range(-10,11,1):
+            if on(hfx+dx, mouth_y): draw.point((int(hfx+dx),int(mouth_y)),fill=(0,255,180,int(180+pulse*60)))
+        for dx in range(-8,9,3):
+            rect(hfx+dx, mouth_y+2, hfx+dx+2, mouth_y+4, (0,200,150,160))
+
+    elif name in ("Dora","Blossom","Sakura","Valentines","Easter","Wisp"):
+        # Cute smile — pink curved
+        for i,dx in enumerate(range(-6,7,2)):
+            curve = int(abs(dx)/3)
+            dot(hfx+dx, mouth_y+3+curve, (255,120,160,200), 1)
+        # Rosy cheeks
+        draw.ellipse([hfx-18,hfy+2,hfx-10,hfy+8],fill=(255,150,150,80))
+        draw.ellipse([hfx+10,hfy+2,hfx+18,hfy+8],fill=(255,150,150,80))
+
+    elif name in ("Doraemon",):
+        # Doraemon whiskers + nose + smile
+        dot(hfx, mouth_y-4, (255,80,80,220), 3)  # red nose
+        for side,sign in [(-1,-1),(1,1)]:
+            for i in range(3):
+                wx = hfx+sign*8; wy = hfy+i*3-2
+                draw.line([int(wx),int(wy),int(wx+sign*14),int(wy)],fill=(0,0,0,180),width=1)
+        # Curved smile
+        for i,dx in enumerate(range(-8,9,2)):
+            curve=int((abs(dx)/4)**1.5)
+            dot(hfx+dx, mouth_y+2+curve, (0,0,0,200), 1)
+
+    elif name in ("FreeStyle","Prism","Rainbow","Galaxy","Nebula","Nebula2","Celestial"):
+        # Prismatic smile — shifts color
+        import colorsys
+        for i,dx in enumerate(range(-8,9,2)):
+            hue=(i/9+t_norm*0.5)%1.0; rc,gc,bc=colorsys.hsv_to_rgb(hue,1.0,1.0)
+            dot(hfx+dx, mouth_y+3, (int(rc*255),int(gc*255),int(bc*255),220), 1)
+
+    elif name in ("Halloween",):
+        # Jack-o-lantern carved mouth
+        rect(hfx-12, mouth_y, hfx+12, mouth_y+6, (0,0,0,220))
+        for i,dx in enumerate([-9,-3,3,9]):
+            draw.polygon([int(hfx+dx-2),int(mouth_y), int(hfx+dx+2),int(mouth_y), int(hfx+dx),int(mouth_y+5)],
+                         fill=(255,100,0,220))
+
+    else:
+        # Default — simple dark line mouth
+        for dx in range(-7,8,1):
+            if on(hfx+dx, mouth_y+2): dot(hfx+dx, mouth_y+2, (30,20,20,180), 1)
+
+    # ── BODY SHAPE MARKINGS per theme ─────────────────────────────────────
+    if name in ("Inferno","Crimson","Lava","Magma","Demon","Epic","Infernal"):
+        # Lava veins on chest
+        for i in range(3):
+            vx=bx-8+i*8; vy=by-20
+            for j in range(12):
+                vx2=vx+int(math.sin(j*0.5)*3); vy2=vy+j*2
+                if on(vx2,vy2): dot(vx2,vy2,(255,int(60+j*10),0,int(180-j*8)),1)
+
+    elif name in ("Crystal","Frost","Arctic","Blizzard"):
+        # Frost crystal veins on body
+        for i in range(4):
+            vx=bx-bw//3+i*(bw*2//3//3); vy=by-18
+            angle=math.radians(70+i*20)
+            for j in range(10):
+                kx=vx+math.cos(angle)*j; ky=vy+math.sin(angle)*j
+                if on(kx,ky): dot(kx,ky,(180,220,255,int(160-j*12)),1)
+
+    elif name in ("Void","Phantom","Abyssal","Shadow","Wraith"):
+        # Dark void cracks on body
+        for i in range(3):
+            vx=bx-6+i*6; vy=by-15
+            for j in range(10):
+                kx=vx+random.randint(-1,1); ky=vy+j*2
+                if on(kx,ky): dot(kx,ky,(int(pt[0]*0.6),int(pt[1]*0.6),int(pt[2]*0.6),int(140-j*10)),1)
+
+    elif name in ("Legendary","Gold","Solaris"):
+        # Gold armor plates on chest
+        rect(bx-12,by-22,bx+12,by-10,(int(ac[0]*0.8),int(ac[1]*0.8),int(ac[2]*0.4),160))
+        draw.rectangle([bx-12,by-22,bx+12,by-10],outline=(255,220,50,200),width=1)
+
+    elif name in ("Doraemon",):
+        # Blue belly circle
+        draw.ellipse([bx-14,by-18,bx+14,by+8],fill=(255,255,255,180))
+        draw.ellipse([bx-10,by-14,bx+10,by+4],outline=(0,0,0,120),width=1)
+
+    elif name in ("TrollFace",):
+        # Troll face body — grey chest
+        rect(bx-15,by-20,bx+15,by+10,(80,80,80,120))
+
+
 def add_cosmetics(img, mask, fd, theme, frame_idx, total, anim):
     draw = ImageDraw.Draw(img)
     ac=theme["ac"]; hi=theme["hi"]; pt=theme["pt"]; fl=theme["fl"]
@@ -1591,6 +1751,7 @@ def add_cosmetics(img, mask, fd, theme, frame_idx, total, anim):
     draw_head_anim(draw,mask,htx,hty,hw,theme["head_anim"],ac,hi,pt,fl,frame_idx,total,W,H)
     draw_theme_extras(img,mask,fd,theme,frame_idx,total,anim)
     draw_eyes_and_face(draw,mask,hfx,hfy,theme,pulse,pulse2,t_norm,anim,W,H,eyes=fd.get("eyes"))
+    draw_theme_face_base(img,mask,fd,theme,frame_idx,total)
 
     # Collar
     collar_y=hfy+18
@@ -2301,6 +2462,8 @@ def generate_skin(theme_name=None, seed=None, shape_fx=False):
             src_path = os.path.join(src_dir, fname)
             mask = get_mask(src_path)
             base_img = recolor(src_path, theme, variation)
+            # Apply theme face/body markings to base too
+            draw_theme_face_base(base_img, mask, fd, theme, idx, total)
 
             # Full frame
             full = base_img.copy()
