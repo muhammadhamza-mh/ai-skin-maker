@@ -73,6 +73,10 @@ THEMES = [
     {"name":"FreeStyle", "style":"ninja",   "weapon":"katana",  "head_anim":"void_spiral", "body_anim":"aurora_wave",  "hd":(20,0,40),   "hl":(120,0,200),  "bd":(30,0,55),   "bl":(160,20,240), "rd":(15,0,30),   "rl":(100,0,180),  "ac":(200,50,255), "hi":(240,150,255),"s":(140,80,160),"pt":(180,30,255),"fl":(220,100,255),"border":"rainbow_wide","anim1":"wisps","anim2":"sand","special1":"freestyle_trail","special2":"color_burst"},
     {"name":"Epic",      "style":"armor",   "weapon":"sword",   "head_anim":"fire_crown",  "body_anim":"hellfire_rise","hd":(60,0,10),   "hl":(220,20,40),  "bd":(80,5,15),   "bl":(255,40,60),  "rd":(45,0,8),    "rl":(200,15,30),  "ac":(255,50,80),  "hi":(255,180,200),"s":(180,80,100),"pt":(255,30,60),"fl":(255,120,150),"border":"flaming_wide","anim1":"hellfire","anim2":"lightning","special1":"epic_aura","special2":"power_surge"},
     {"name":"Nebula2",   "style":"robe",    "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"soul_orbs",    "hd":(5,0,20),    "hl":(60,0,120),   "bd":(8,0,30),    "bl":(100,20,180), "rd":(3,0,15),    "rl":(70,10,140),  "ac":(160,80,255), "hi":(220,160,255),"s":(100,70,140), "pt":(140,60,255),"fl":(200,140,255),"border":"plasma_wide","anim1":"wisps","anim2":"aurora","special1":"void_rift","special2":"solar_flare"},
+    {"name":"Tsunami",   "style":"royal",   "weapon":"trident", "head_anim":"wave_crown",  "body_anim":"bubble_rise",  "hd":(0,15,40),   "hl":(0,100,180),  "bd":(0,20,55),   "bl":(0,140,220),  "rd":(0,10,30),   "rl":(0,180,240),  "ac":(0,200,255),  "hi":(180,240,255),"s":(80,150,200), "pt":(0,180,255),"fl":(100,220,255),"border":"plasma_wide","anim1":"soulorbs","anim2":"aurora","special1":"void_rift","special2":"solar_flare"},
+    {"name":"Reaper3",   "style":"tattered","weapon":"scythe",  "head_anim":"void_spiral", "body_anim":"dark_tendrils","hd":(10,0,5),    "hl":(80,0,30),    "bd":(15,0,8),    "bl":(120,0,50),   "rd":(8,0,3),     "rl":(160,0,60),   "ac":(220,0,80),   "hi":(255,100,140),"s":(140,60,80),  "pt":(200,0,60),"fl":(255,80,120),"border":"flaming_wide","anim1":"blood","anim2":"darktendrils","special1":"void_rift","special2":"power_surge"},
+    {"name":"Cosmic",    "style":"robe",    "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"neon_pulse",   "hd":(5,0,25),    "hl":(50,0,150),   "bd":(8,0,35),    "bl":(80,20,200),  "rd":(3,0,18),    "rl":(120,40,220), "ac":(140,80,255), "hi":(220,180,255),"s":(100,80,160), "pt":(120,60,255),"fl":(200,160,255),"border":"plasma_border","anim1":"meteor","anim2":"divinelight","special1":"solar_flare","special2":"legendary_crown"},
+    {"name":"Samurai2",  "style":"armor",   "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"chain_lightning","hd":(30,5,5),   "hl":(160,20,20),  "bd":(40,8,8),    "bl":(200,30,30),  "rd":(20,3,3),    "rl":(180,15,15),  "ac":(255,60,60),  "hi":(255,200,200),"s":(170,100,100),"pt":(240,40,40),"fl":(255,150,150),"border":"electric_wide","anim1":"chainlightning","anim2":"lightning","special1":"power_surge","special2":"epic_aura"},
     {"name":"Solaris",   "style":"armor",   "weapon":"sword",   "head_anim":"gold_crown",  "body_anim":"divine_light", "hd":(60,30,0),   "hl":(220,140,0),  "bd":(80,40,0),   "bl":(255,180,0),  "rd":(45,22,0),   "rl":(240,200,50), "ac":(255,200,0),  "hi":(255,240,150),"s":(200,160,80), "pt":(255,180,0),"fl":(255,230,100),"border":"plasma_border","anim1":"aurora","anim2":"lightning","special1":"solar_flare","special2":"divine_rays"},
     {"name":"Legendary", "style":"royal",   "weapon":"staff",   "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(50,35,0),   "hl":(200,160,0),  "bd":(70,50,0),   "bl":(240,200,20), "rd":(35,25,0),   "rl":(220,180,0),  "ac":(255,220,0),  "hi":(255,255,180),"s":(200,170,80),"pt":(255,200,0),"fl":(255,240,100),"border":"gold_wide","anim1":"aurora","anim2":"crystal","special1":"legendary_crown","special2":"divine_rays"},
 ]
@@ -886,6 +890,60 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
                 alpha=int(120*(1-r2/(bw//2))*pulse)
                 if on(ox,oy) and alpha>10: dot(ox,oy,(255,255,220,alpha),1)
         dot(bx,by-5,(255,255,255,int(180+pulse*60)),int(3+pulse))
+
+    elif body_anim == "gravity_well":
+        for i in range(12):
+            angle=(i/12)*math.pi*2+t_norm*math.pi*2
+            dist=int((bw//3)*(1-((t_norm+i/12)%1.0)))
+            ox=bx+math.cos(angle)*dist; oy=by+math.sin(angle)*dist*0.5
+            if on(ox,oy): dot(ox,oy,ac+(int(80+120*((t_norm+i/12)%1.0)),),int(1+2*((t_norm+i/12)%1.0)))
+        dot(bx,by-5,hi+(int(200+pulse*55),),int(4+pulse))
+
+    elif body_anim == "time_warp":
+        for ring in range(4):
+            phase=(t_norm*3+ring/4)%1.0; r2=int(phase*bw*0.45)
+            alpha=int(180*math.sin(phase*math.pi))
+            if alpha>10:
+                for a_deg in range(0,360,10):
+                    a=math.radians(a_deg+ring*45)
+                    ox=bx+math.cos(a)*r2; oy=by+math.sin(a)*r2*0.5
+                    if on(ox,oy): dot(ox,oy,pt+(alpha,),1)
+                    ox2=bx+math.cos(a+0.1)*r2; oy2=by+math.sin(a+0.1)*r2*0.5
+                    if on(ox2,oy2): dot(ox2,oy2,hi+(int(alpha*0.5),),1)
+
+    elif body_anim == "shadow_clone":
+        offset=int(math.sin(t_norm*math.pi*2)*12)
+        for dy2 in range(-25,25,3):
+            for dx2 in range(-bw//3,bw//3,4):
+                if on(bx+dx2+offset,by+dy2):
+                    dot(bx+dx2+offset,by+dy2,(int(ac[0]*0.3),int(ac[1]*0.3),int(ac[2]*0.3),int(60+pulse*40)),1)
+
+    elif body_anim == "rune_circle":
+        for i in range(8):
+            angle=(i/8)*math.pi*2+t_norm*math.pi
+            ox=bx+math.cos(angle)*(bw//2-6); oy=by+math.sin(angle)*(bw//2-6)*0.45
+            if on(ox,oy):
+                bright=int(120+120*math.sin(angle+t_norm*math.pi*2))
+                draw.polygon([int(ox),int(oy)-5,int(ox)+4,int(oy),int(ox),int(oy)+5,int(ox)-4,int(oy)],fill=ac+(bright,))
+                dot(ox,oy,hi+(int(bright*0.7),),1)
+        for a_deg in range(0,360,5):
+            a=math.radians(a_deg+t_norm*180)
+            ox=bx+math.cos(a)*(bw//2-4); oy=by+math.sin(a)*(bw//2-4)*0.45
+            if on(ox,oy): dot(ox,oy,pt+(int(60+pulse*60),),1)
+
+    elif body_anim == "phoenix_rise":
+        for i in range(6):
+            rise=(frame_idx*(3+i)*3+i*11)%50
+            fx2=botx-botw//3+i*(botw*2//3//5)+int(math.sin(rise*0.2)*8)
+            fy2=boty-rise
+            if on(fx2,fy2):
+                t2=rise/50
+                dot(fx2,fy2,(255,int(120+100*t2),int(40*t2),int(200-t2*80)),int(3-t2*2))
+                if rise%8==0: dot(fx2+2,fy2-2,(255,220,100,int(140-t2*80)),1)
+        for i in range(4):
+            a=(i/4)*math.pi*2+t_norm*math.pi*3
+            ox=bx+math.cos(a)*bw//4; oy=by+math.sin(a)*16
+            if on(ox,oy): dot(ox,oy,(255,int(100+pulse*100),0,int(120+pulse*80)),int(2+pulse))
 
 
 def draw_theme_extras(img, mask, fd, theme, frame_idx, total, anim):
@@ -2012,6 +2070,23 @@ def draw_shape_fx(img, mask, fd, theme, frame_idx, total, border_style=None):
             if int(pos*n)%12==0:
                 draw.ellipse([ex-4,ey-4,ex+4,ey+4],fill=(255,255,255,int(180+pulse*60)))
 
+    elif style == "shadow_border":
+        for idx,(ex,ey) in enumerate(edge):
+            pos=idx/n; wave3=math.sin(pos*math.pi*8+t_norm*math.pi*4)
+            r2=int(ac[0]*0.3*(abs(wave3)+1)/2); g2=int(ac[1]*0.3*(abs(wave3)+1)/2); b2=int(ac[2]*0.3*(abs(wave3)+1)/2)
+            draw.point((ex,ey),fill=(r2,g2,b2,int(180+60*abs(wave3))))
+            if wave3>0.7: draw.ellipse([ex-2,ey-2,ex+2,ey+2],fill=(0,0,0,int(wave3*200)))
+
+    elif style == "shadow_wide":
+        for idx,(ex,ey) in enumerate(edge):
+            pos=idx/n; wave3=math.sin(pos*math.pi*8+t_norm*math.pi*4)
+            for w in range(5):
+                nx,ny=ex+random.randint(-w,w),ey+random.randint(-w,w)
+                if 0<=nx<W and 0<=ny<H:
+                    alpha=int(200-w*35)
+                    draw.point((nx,ny),fill=(int(ac[0]*0.4),int(ac[1]*0.4),int(ac[2]*0.4),alpha))
+            if wave3>0.6: draw.ellipse([ex-4,ey-4,ex+4,ey+4],fill=(int(pt[0]*0.6),int(pt[1]*0.6),int(pt[2]*0.6),int(wave3*180)))
+
 
 def draw_special_fx(img, mask, fd, theme, frame_idx, total, special_key):
     """Per-theme special FX always rendered."""
@@ -2098,6 +2173,30 @@ def draw_special_fx(img, mask, fd, theme, frame_idx, total, special_key):
             for r2 in [14,20]:
                 ox=htx+math.cos(a)*r2; oy=hty-3+math.sin(a)*r2*0.35
                 dot(ox,oy,(255,220,0,int(160+pulse*80*(1-r2/25))),int(2+pulse*(1-r2/25)))
+    elif special_key=="time_freeze":
+        # Clock hands on chest
+        cx,cy=bx,by-8
+        for hand_len,hand_angle in [(10,t_norm*math.pi*2),(7,t_norm*math.pi*24)]:
+            hx=cx+math.cos(hand_angle-math.pi/2)*hand_len
+            hy=cy+math.sin(hand_angle-math.pi/2)*hand_len
+            steps=max(abs(int(hx)-cx),abs(int(hy)-cy),1)
+            for s in range(steps):
+                t2=s/steps; px2=int(cx+(hx-cx)*t2); py2=int(cy+(hy-cy)*t2)
+                if on(px2,py2): dot(px2,py2,hi+(int(200+pulse*55),),1)
+        draw.ellipse([cx-11,cy-11,cx+11,cy+11],outline=ac+(int(160+pulse*60),),width=1)
+        dot(cx,cy,(255,255,255,220),2)
+
+    elif special_key=="shadow_step":
+        # Shadow afterimage offset
+        for i in range(3):
+            offset_x=int(math.sin(t_norm*math.pi*2+i*0.8)*8)
+            offset_y=int(math.cos(t_norm*math.pi*2+i*0.8)*4)
+            alpha=int(60-i*15)
+            for dy2 in range(-20,20,4):
+                for dx2 in range(-bw//4,bw//4,4):
+                    if on(bx+dx2+offset_x,by+dy2+offset_y):
+                        dot(bx+dx2+offset_x,by+dy2+offset_y,(int(ac[0]*0.4),int(ac[1]*0.4),int(ac[2]*0.4),alpha),1)
+
     elif special_key=="void_rift":
         # Void rift tear on chest
         rift_w=int(8+pulse*6); rift_h=int(14+pulse*4)
@@ -2266,6 +2365,17 @@ def draw_overlay_group(img, mask, fd, theme, frame_idx, total, anim, group):
 
     elif group.startswith("shape_"):
         draw_shape_fx(img,mask,fd,theme,frame_idx,total,group[6:])
+
+    elif group == "gravity":
+        draw_body_anim(draw,mask,bx,by,bw,botx,boty,botw,"gravity_well",ac,hi,pt,fl,frame_idx,total,W,H)
+    elif group == "timewarp":
+        draw_body_anim(draw,mask,bx,by,bw,botx,boty,botw,"time_warp",ac,hi,pt,fl,frame_idx,total,W,H)
+    elif group == "shadowclone":
+        draw_body_anim(draw,mask,bx,by,bw,botx,boty,botw,"shadow_clone",ac,hi,pt,fl,frame_idx,total,W,H)
+    elif group == "runecircle":
+        draw_body_anim(draw,mask,bx,by,bw,botx,boty,botw,"rune_circle",ac,hi,pt,fl,frame_idx,total,W,H)
+    elif group == "phoenixrise":
+        draw_body_anim(draw,mask,bx,by,bw,botx,boty,botw,"phoenix_rise",ac,hi,pt,fl,frame_idx,total,W,H)
 
     elif group == "meteor":
         draw_body_anim(draw,mask,bx,by,bw,botx,boty,botw,"meteor_shower",ac,hi,pt,fl,frame_idx,total,W,H)
@@ -2442,8 +2552,8 @@ def generate_skin(theme_name=None, seed=None, shape_fx=False):
 
     # Named overlay groups — each is a transparent RGBA layer
     # Keys match what the sidebar toggles
-    BORDER_STYLES = ["armor","fire_border","ice_border","void_border","gold_border","rainbow_border","electric_border","nature_border","royal","flaming_wide","electric_wide","gold_wide","rainbow_wide","chaos_wide","plasma_border","plasma_wide"]
-    overlay_groups = ["head", "eyes", "body", "scythe", "robe", "shape", "aurora", "hellfire", "crystal", "lightning", "smoke", "blood", "sand", "wisps", "meteor", "iceshatter", "darktendrils", "neonpulse", "feather", "magma", "soulorbs", "pixelglitch", "chainlightning", "divinelight"] + ["shape_"+b for b in BORDER_STYLES]
+    BORDER_STYLES = ["armor","fire_border","ice_border","void_border","gold_border","rainbow_border","electric_border","nature_border","royal","flaming_wide","electric_wide","gold_wide","rainbow_wide","chaos_wide","plasma_border","plasma_wide","shadow_border","shadow_wide"]
+    overlay_groups = ["head", "eyes", "body", "scythe", "robe", "shape", "aurora", "hellfire", "crystal", "lightning", "smoke", "blood", "sand", "wisps", "meteor", "iceshatter", "darktendrils", "neonpulse", "feather", "magma", "soulorbs", "pixelglitch", "chainlightning", "divinelight", "gravity", "timewarp", "shadowclone", "runecircle", "phoenixrise"] + ["shape_"+b for b in BORDER_STYLES]
     overlays_b64 = {g: {} for g in overlay_groups}
 
     for anim in ["attack","flying","idle"]:

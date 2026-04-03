@@ -95,8 +95,8 @@ select:focus,input:focus{border-color:#7030e0}
 <body>
 <header>
   <div>
-    <h1>⚔️ AI GrimReaper Skin Maker <span style="font-size:0.65rem;background:#2a1a4a;color:#a080d0;padding:2px 7px;border-radius:10px;margin-left:6px;-webkit-text-fill-color:#a080d0">v1.05</span></h1>
-    <p>57 themes · Unique eye styles · Weapons · Real-time animation toggles</p>
+    <h1>⚔️ AI GrimReaper Skin Maker <span style="font-size:0.65rem;background:#2a1a4a;color:#a080d0;padding:2px 7px;border-radius:10px;margin-left:6px;-webkit-text-fill-color:#a080d0">v1.06</span></h1>
+    <p>61 themes · Unique eye styles · Weapons · Real-time animation toggles</p>
   </div>
 </header>
 <div class="layout">
@@ -148,6 +148,11 @@ select:focus,input:focus{border-color:#7030e0}
       <div class="toggle-item active" id="ti_soulorbs" onclick="toggleAnim('soulorbs')"><span class="ico">🔮</span><span class="lbl">Soul Orbs</span><div class="toggle-switch on" id="sw_soulorbs"></div></div>
       <div class="toggle-item active" id="ti_pixelglitch" onclick="toggleAnim('pixelglitch')"><span class="ico">📺</span><span class="lbl">Pixel Glitch</span><div class="toggle-switch on" id="sw_pixelglitch"></div></div>
       <div class="toggle-item active" id="ti_chainlightning" onclick="toggleAnim('chainlightning')"><span class="ico">⚡</span><span class="lbl">Chain Lightning</span><div class="toggle-switch on" id="sw_chainlightning"></div></div>
+      <div class="toggle-item active" id="ti_gravity" onclick="toggleAnim('gravity')"><span class="ico">🌀</span><span class="lbl">Gravity Well</span><div class="toggle-switch on" id="sw_gravity"></div></div>
+      <div class="toggle-item active" id="ti_timewarp" onclick="toggleAnim('timewarp')"><span class="ico">⏳</span><span class="lbl">Time Warp</span><div class="toggle-switch on" id="sw_timewarp"></div></div>
+      <div class="toggle-item active" id="ti_shadowclone" onclick="toggleAnim('shadowclone')"><span class="ico">👤</span><span class="lbl">Shadow Clone</span><div class="toggle-switch on" id="sw_shadowclone"></div></div>
+      <div class="toggle-item active" id="ti_runecircle" onclick="toggleAnim('runecircle')"><span class="ico">🔯</span><span class="lbl">Rune Circle</span><div class="toggle-switch on" id="sw_runecircle"></div></div>
+      <div class="toggle-item active" id="ti_phoenixrise" onclick="toggleAnim('phoenixrise')"><span class="ico">🦅</span><span class="lbl">Phoenix Rise</span><div class="toggle-switch on" id="sw_phoenixrise"></div></div>
       <div class="toggle-item active" id="ti_divinelight" onclick="toggleAnim('divinelight')"><span class="ico">✨</span><span class="lbl">Divine Light</span><div class="toggle-switch on" id="sw_divinelight"></div></div>
     </div>
 
@@ -203,6 +208,8 @@ select:focus,input:focus{border-color:#7030e0}
         <label class="brad" data-b="chaos_wide"><input type="radio" name="border" value="chaos_wide" onchange="onBorderChange('chaos_wide')"> 🌀 Chaos Wide</label>
         <label class="brad" data-b="plasma_border"><input type="radio" name="border" value="plasma_border" onchange="onBorderChange('plasma_border')"> 🌀 Plasma</label>
         <label class="brad" data-b="plasma_wide"><input type="radio" name="border" value="plasma_wide" onchange="onBorderChange('plasma_wide')"> 🌀 Plasma Wide</label>
+        <label class="brad" data-b="shadow_border"><input type="radio" name="border" value="shadow_border" onchange="onBorderChange('shadow_border')"> 🖤 Shadow</label>
+        <label class="brad" data-b="shadow_wide"><input type="radio" name="border" value="shadow_wide" onchange="onBorderChange('shadow_wide')"> 🖤 Shadow Wide</label>
         <button onclick="openMerge()" style="padding:3px 10px;border-radius:8px;background:#2a1a4a;border:1px solid #5030a0;color:#a080d0;font-size:0.7rem;cursor:pointer">⚗️ Merge 2</button>
       </div>
     </div>
@@ -257,7 +264,7 @@ let enabledGroups=new Set(['head','eyes','body','scythe','robe','shape']);
 let pingpong=false;
 let activeBorder='';
 let mergedBorder=null; // {b1,b2} when merge active
-const GROUPS=['head','eyes','body','scythe','robe','shape','aurora','hellfire','crystal','lightning','smoke','blood','sand','wisps','meteor','iceshatter','darktendrils','neonpulse','feather','magma','soulorbs','pixelglitch','chainlightning','divinelight'];
+const GROUPS=['head','eyes','body','scythe','robe','shape','aurora','hellfire','crystal','lightning','smoke','blood','sand','wisps','meteor','iceshatter','darktendrils','neonpulse','feather','magma','soulorbs','pixelglitch','chainlightning','divinelight','gravity','timewarp','shadowclone','runecircle','phoenixrise'];
 const ANIMS=['attack','flying','idle'];
 const FPS={attack:12,flying:6,idle:6};
 
@@ -297,7 +304,7 @@ function onThemeChange(name){
   // Show special FX info
   const sfxEl=document.getElementById('sfx_info');
   if(sfxEl){
-    const sfxNames={'sparkle_trail':'✨ Sparkle Trail','star_burst_fx':'⭐ Star Burst','gadget_glow':'🔵 Gadget Glow','pocket_sparkle':'💙 Pocket Sparkle','troll_grin':'😏 Troll Grin','chaos_sparks':'🌀 Chaos Sparks','freestyle_trail':'🎨 Freestyle Trail','color_burst':'🌈 Color Burst','epic_aura':'💥 Epic Aura','power_surge':'⚡ Power Surge','legendary_crown':'👑 Legendary Crown','divine_rays':'✨ Divine Rays','void_rift':'🌀 Void Rift','solar_flare':'☀️ Solar Flare'};
+    const sfxNames={'sparkle_trail':'✨ Sparkle Trail','star_burst_fx':'⭐ Star Burst','gadget_glow':'🔵 Gadget Glow','pocket_sparkle':'💙 Pocket Sparkle','troll_grin':'😏 Troll Grin','chaos_sparks':'🌀 Chaos Sparks','freestyle_trail':'🎨 Freestyle Trail','color_burst':'🌈 Color Burst','epic_aura':'💥 Epic Aura','power_surge':'⚡ Power Surge','legendary_crown':'👑 Legendary Crown','divine_rays':'✨ Divine Rays','void_rift':'🌀 Void Rift','solar_flare':'☀️ Solar Flare','time_freeze':'⏱️ Time Freeze','shadow_step':'👤 Shadow Step'};
     const s1=sfxNames[td.special1]||td.special1; const s2=sfxNames[td.special2]||td.special2;
     sfxEl.innerHTML=(s1||s2)?`<span style="color:#ff80a0">${s1||''}</span>${s1&&s2?' + ':''}<span style="color:#ff80a0">${s2||''}</span>`:'<span style="color:#555">No special FX for this theme</span>';
   }
@@ -573,5 +580,5 @@ def webhook():
     return "OK", 200
 
 if __name__ == "__main__":
-    print("🎭 AI Skin Maker v1.05 → http://localhost:5050")
+    print("🎭 AI Skin Maker v1.06 → http://localhost:5050")
     app.run(host="0.0.0.0", port=5050, debug=False)
