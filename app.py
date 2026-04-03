@@ -163,6 +163,11 @@ select:focus,input:focus{border-color:#7030e0}
     </div>
 
     <div class="sidebar-sep"></div>
+    <div style="padding:6px 10px">
+      <div style="font-size:0.65rem;color:#7050a0;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">⏱ Speed: <span id="speedVal">Normal</span></div>
+      <input type="range" min="0.25" max="4" step="0.25" value="1" oninput="setSpeed(this.value)" style="width:100%;accent-color:#7030e0;cursor:pointer">
+    </div>
+    <div class="sidebar-sep"></div>
     <div class="toggle-item" id="ti_pingpong" onclick="togglePP()">
       <span class="ico">🔄</span><span class="lbl">Ping-pong</span>
       <div class="toggle-switch" id="sw_pingpong"></div>
@@ -267,6 +272,7 @@ let mergedBorder=null; // {b1,b2} when merge active
 const GROUPS=['head','eyes','body','scythe','robe','shape','aurora','hellfire','crystal','lightning','smoke','blood','sand','wisps','meteor','iceshatter','darktendrils','neonpulse','feather','magma','soulorbs','pixelglitch','chainlightning','divinelight','gravity','timewarp','shadowclone','runecircle','phoenixrise'];
 const ANIMS=['attack','flying','idle'];
 const FPS={attack:12,flying:6,idle:6};
+let speedMult=1.0; // 1=normal, 2=half speed, 0.5=double speed
 
 // Theme data from server
 const THEME_DATA = {
@@ -488,7 +494,7 @@ function startAnims(){
       // Update strip active
       const strip=document.getElementById('strip_'+anim);
       if(strip) strip.querySelectorAll('canvas').forEach((c,i)=>c.classList.toggle('active',i===animIdxs[anim]));
-    }, Math.round(1000/FPS[anim]));
+    }, Math.round(1000/FPS[anim]*speedMult));
   });
 }
 
@@ -502,6 +508,12 @@ function toggleAnim(group){
   ti.className='toggle-item'+(on?' active':'');
   // Redraw all frames instantly
   ANIMS.forEach(anim=>{ drawAllStrip(anim); drawBig(anim,animIdxs[anim]); });
+}
+
+function setSpeed(val){
+  speedMult=parseFloat(val);
+  document.getElementById('speedVal').textContent=speedMult===1?'Normal':speedMult>1?'Slow '+speedMult+'x':'Fast '+Math.round(1/speedMult)+'x';
+  if(curId) startAnims();
 }
 
 function togglePP(){
