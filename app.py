@@ -95,8 +95,8 @@ select:focus,input:focus{border-color:#7030e0}
 <body>
 <header>
   <div>
-    <h1>⚔️ AI GrimReaper Skin Maker <span style="font-size:0.65rem;background:#2a1a4a;color:#a080d0;padding:2px 7px;border-radius:10px;margin-left:6px;-webkit-text-fill-color:#a080d0">v1.06</span></h1>
-    <p>61 themes · Unique eye styles · Weapons · Real-time animation toggles</p>
+    <h1>⚔️ AI GrimReaper Skin Maker <span style="font-size:0.65rem;background:#2a1a4a;color:#a080d0;padding:2px 7px;border-radius:10px;margin-left:6px;-webkit-text-fill-color:#a080d0">v1.07</span></h1>
+    <p>69 themes · Unique eye styles · Weapons · Real-time animation toggles</p>
   </div>
 </header>
 <div class="layout">
@@ -148,6 +148,16 @@ select:focus,input:focus{border-color:#7030e0}
       <div class="toggle-item active" id="ti_soulorbs" onclick="toggleAnim('soulorbs')"><span class="ico">🔮</span><span class="lbl">Soul Orbs</span><div class="toggle-switch on" id="sw_soulorbs"></div></div>
       <div class="toggle-item active" id="ti_pixelglitch" onclick="toggleAnim('pixelglitch')"><span class="ico">📺</span><span class="lbl">Pixel Glitch</span><div class="toggle-switch on" id="sw_pixelglitch"></div></div>
       <div class="toggle-item active" id="ti_chainlightning" onclick="toggleAnim('chainlightning')"><span class="ico">⚡</span><span class="lbl">Chain Lightning</span><div class="toggle-switch on" id="sw_chainlightning"></div></div>
+      <div class="toggle-item active" id="ti_comet" onclick="toggleAnim('comet')"><span class="ico">☄️</span><span class="lbl">Comet Trail</span><div class="toggle-switch on" id="sw_comet"></div></div>
+      <div class="toggle-item active" id="ti_frostbreath" onclick="toggleAnim('frostbreath')"><span class="ico">🌬️</span><span class="lbl">Frost Breath</span><div class="toggle-switch on" id="sw_frostbreath"></div></div>
+      <div class="toggle-item active" id="ti_vinegrow" onclick="toggleAnim('vinegrow')"><span class="ico">🌿</span><span class="lbl">Vine Grow</span><div class="toggle-switch on" id="sw_vinegrow"></div></div>
+      <div class="toggle-item active" id="ti_electricarc" onclick="toggleAnim('electricarc')"><span class="ico">⚡</span><span class="lbl">Electric Arc</span><div class="toggle-switch on" id="sw_electricarc"></div></div>
+      <div class="toggle-item active" id="ti_sandstorm" onclick="toggleAnim('sandstorm')"><span class="ico">🌪️</span><span class="lbl">Sand Storm</span><div class="toggle-switch on" id="sw_sandstorm"></div></div>
+      <div class="toggle-item active" id="ti_inksplash" onclick="toggleAnim('inksplash')"><span class="ico">🖋️</span><span class="lbl">Ink Splash</span><div class="toggle-switch on" id="sw_inksplash"></div></div>
+      <div class="toggle-item active" id="ti_holylight" onclick="toggleAnim('holylight')"><span class="ico">✨</span><span class="lbl">Holy Light</span><div class="toggle-switch on" id="sw_holylight"></div></div>
+      <div class="toggle-item active" id="ti_darkmatter" onclick="toggleAnim('darkmatter')"><span class="ico">🌑</span><span class="lbl">Dark Matter</span><div class="toggle-switch on" id="sw_darkmatter"></div></div>
+      <div class="toggle-item active" id="ti_waterripple" onclick="toggleAnim('waterripple')"><span class="ico">💧</span><span class="lbl">Water Ripple</span><div class="toggle-switch on" id="sw_waterripple"></div></div>
+      <div class="toggle-item active" id="ti_starfield" onclick="toggleAnim('starfield')"><span class="ico">⭐</span><span class="lbl">Star Field</span><div class="toggle-switch on" id="sw_starfield"></div></div>
       <div class="toggle-item active" id="ti_gravity" onclick="toggleAnim('gravity')"><span class="ico">🌀</span><span class="lbl">Gravity Well</span><div class="toggle-switch on" id="sw_gravity"></div></div>
       <div class="toggle-item active" id="ti_timewarp" onclick="toggleAnim('timewarp')"><span class="ico">⏳</span><span class="lbl">Time Warp</span><div class="toggle-switch on" id="sw_timewarp"></div></div>
       <div class="toggle-item active" id="ti_shadowclone" onclick="toggleAnim('shadowclone')"><span class="ico">👤</span><span class="lbl">Shadow Clone</span><div class="toggle-switch on" id="sw_shadowclone"></div></div>
@@ -214,6 +224,11 @@ select:focus,input:focus{border-color:#7030e0}
         <label class="brad" data-b="plasma_border"><input type="radio" name="border" value="plasma_border" onchange="onBorderChange('plasma_border')"> 🌀 Plasma</label>
         <label class="brad" data-b="plasma_wide"><input type="radio" name="border" value="plasma_wide" onchange="onBorderChange('plasma_wide')"> 🌀 Plasma Wide</label>
         <label class="brad" data-b="shadow_border"><input type="radio" name="border" value="shadow_border" onchange="onBorderChange('shadow_border')"> 🖤 Shadow</label>
+        <label class="brad" data-b="holy_border"><input type="radio" name="border" value="holy_border" onchange="onBorderChange('holy_border')"> 🌟 Holy</label>
+        <label class="brad" data-b="holy_wide"><input type="radio" name="border" value="holy_wide" onchange="onBorderChange('holy_wide')"> 🌟 Holy Wide</label>
+        <label class="brad" data-b="toxic_border"><input type="radio" name="border" value="toxic_border" onchange="onBorderChange('toxic_border')"> ☠️ Toxic</label>
+        <label class="brad" data-b="toxic_wide"><input type="radio" name="border" value="toxic_wide" onchange="onBorderChange('toxic_wide')"> ☠️ Toxic Wide</label>
+        <label class="brad" data-b="cosmic_border"><input type="radio" name="border" value="cosmic_border" onchange="onBorderChange('cosmic_border')"> 🌌 Cosmic</label>
         <label class="brad" data-b="shadow_wide"><input type="radio" name="border" value="shadow_wide" onchange="onBorderChange('shadow_wide')"> 🖤 Shadow Wide</label>
         <button onclick="openMerge()" style="padding:3px 10px;border-radius:8px;background:#2a1a4a;border:1px solid #5030a0;color:#a080d0;font-size:0.7rem;cursor:pointer">⚗️ Merge 2</button>
       </div>
@@ -269,7 +284,7 @@ let enabledGroups=new Set(['head','eyes','body','scythe','robe','shape']);
 let pingpong=false;
 let activeBorder='';
 let mergedBorder=null; // {b1,b2} when merge active
-const GROUPS=['head','eyes','body','scythe','robe','shape','aurora','hellfire','crystal','lightning','smoke','blood','sand','wisps','meteor','iceshatter','darktendrils','neonpulse','feather','magma','soulorbs','pixelglitch','chainlightning','divinelight','gravity','timewarp','shadowclone','runecircle','phoenixrise'];
+const GROUPS=['head','eyes','body','scythe','robe','shape','aurora','hellfire','crystal','lightning','smoke','blood','sand','wisps','meteor','iceshatter','darktendrils','neonpulse','feather','magma','soulorbs','pixelglitch','chainlightning','divinelight','gravity','timewarp','shadowclone','runecircle','phoenixrise','comet','frostbreath','vinegrow','electricarc','sandstorm','inksplash','holylight','darkmatter','waterripple','starfield'];
 const ANIMS=['attack','flying','idle'];
 const FPS={attack:12,flying:6,idle:6};
 let speedMult=1.0; // 1=normal, 2=half speed, 0.5=double speed
@@ -592,5 +607,5 @@ def webhook():
     return "OK", 200
 
 if __name__ == "__main__":
-    print("🎭 AI Skin Maker v1.06 → http://localhost:5050")
+    print("🎭 AI Skin Maker v1.07 → http://localhost:5050")
     app.run(host="0.0.0.0", port=5050, debug=False)
