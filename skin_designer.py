@@ -598,8 +598,12 @@ def draw_head_anim(draw, mask, htx, hty, hw, head_anim, ac, hi, pt, fl, frame_id
 
 def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
                    ac, hi, pt, fl, frame_idx, total, W, H):
-    pulse  = 0.5 + 0.5 * math.sin(frame_idx / total * math.pi * 2)
-    t_norm = frame_idx / max(total - 1, 1)
+    # Normalize to fixed 12-frame cycle so attack(8)/idle(6)/flying(5) all animate at same speed
+    CYCLE = 12
+    t_norm = (frame_idx % CYCLE) / CYCLE
+    pulse  = 0.5 + 0.5 * math.sin(t_norm * math.pi * 2)
+    # face_bottom: restrict body animations to below this Y to avoid face particles
+    face_bottom = by - 28
 
     def dot(x, y, color, r=1):
         xi, yi = int(x), int(y)
@@ -609,6 +613,11 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
     def on(x, y):
         xi, yi = int(x), int(y)
         return 0 <= xi < W and 0 <= yi < H and mask[yi, xi]
+
+    def on_body(x, y):
+        """Only draw on body area, not face"""
+        xi, yi = int(x), int(y)
+        return 0 <= xi < W and 0 <= yi < H and mask[yi, xi] and yi > face_bottom
 
     if body_anim == "lava_cracks":
         # Glowing crack lines on body
@@ -631,7 +640,7 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
             angle = (i/5)*math.pi*2 + t_norm*math.pi*2
             ox = bx + math.cos(angle)*bw//3
             oy = by + math.sin(angle)*20
-            if on(ox, oy):
+            if on_body(ox, oy):
                 dot(ox, oy, pt+(int(160+60*math.sin(angle),),), int(2+pulse))
 
     elif body_anim == "snowflakes":
@@ -662,7 +671,7 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
             angle = (i/6)*math.pi*2 + t_norm*math.pi*4
             ox = bx + math.cos(angle)*bw//4
             oy = by + math.sin(angle)*15
-            if on(ox, oy):
+            if on_body(ox, oy):
                 dot(ox, oy, hi+(int(150+80*math.sin(angle*2),),), int(2+pulse))
 
     elif body_anim == "bubble_rise":
@@ -706,7 +715,7 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
             angle = (i/4)*math.pi*2 + t_norm*math.pi*2
             ox = bx + math.cos(angle)*bw//3
             oy = by + math.sin(angle)*18
-            if on(ox, oy):
+            if on_body(ox, oy):
                 # Star shape
                 dot(ox, oy, hi+(int(180+60*pulse),), 2)
                 for a_deg in [0,72,144,216,288]:
@@ -733,14 +742,14 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
             for dx2 in range(-width//2, width//2, 2):
                 c = colors[band % len(colors)]
                 alpha = int(180 * math.sin(phase * math.pi))
-                if on(bx+dx2, wave_y):
+                if on_body(bx+dx2, wave_y):
                     dot(bx+dx2, wave_y, c+(alpha,), 2)
         # Shimmer dots
         for i in range(8):
             angle = (i/8)*math.pi*2 + t_norm*math.pi*3
             ox = bx + math.cos(angle)*bw//3
             oy = by + math.sin(angle)*22
-            if on(ox, oy):
+            if on_body(ox, oy):
                 dot(ox, oy, hi+(int(100+pulse*120),), int(1+pulse))
 
     elif body_anim == "hellfire_rise":
@@ -838,7 +847,7 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
                 for a_deg in range(0,360,6):
                     a=math.radians(a_deg)
                     ox=bx+math.cos(a)*r2; oy=by+math.sin(a)*r2*0.5
-                    if on(ox,oy): dot(ox,oy,ac+(alpha,),2)
+                    if on_body(ox,oy): dot(ox,oy,ac+(alpha,),2)
 
     elif body_anim == "feather_fall":
         for i in range(6):
@@ -863,13 +872,13 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
             angle=(i/5)*math.pi*2+t_norm*math.pi*1.5
             dist=bw//3+int(math.sin(t_norm*math.pi*3+i*1.2)*8)
             ox=bx+math.cos(angle)*dist; oy=by+math.sin(angle)*22
-            if on(ox,oy):
+            if on_body(ox,oy):
                 draw.ellipse([int(ox)-5,int(oy)-8,int(ox)+5,int(oy)+8],fill=pt+(int(120+pulse*80),))
                 draw.ellipse([int(ox)-3,int(oy)-5,int(ox)+3,int(oy)+5],fill=(255,255,255,int(80+pulse*60)))
                 for t2 in range(1,4):
                     tx=ox+int(math.sin((t_norm*math.pi*2+i)*t2)*t2*2)
                     ty=oy+t2*5
-                    if on(tx,ty): dot(tx,ty,ac+(int(100*(1-t2/4)),),2)
+                    if on_body(tx,ty): dot(tx,ty,ac+(int(100*(1-t2/4)),),2)
 
     elif body_anim == "pixel_glitch":
         for i in range(10):
@@ -904,7 +913,7 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
             angle=(i/12)*math.pi*2+t_norm*math.pi*2
             dist=int((bw//3)*(1-((t_norm+i/12)%1.0)))
             ox=bx+math.cos(angle)*dist; oy=by+math.sin(angle)*dist*0.5
-            if on(ox,oy): dot(ox,oy,ac+(int(80+120*((t_norm+i/12)%1.0)),),int(1+2*((t_norm+i/12)%1.0)))
+            if on_body(ox,oy): dot(ox,oy,ac+(int(80+120*((t_norm+i/12)%1.0)),),int(1+2*((t_norm+i/12)%1.0)))
         dot(bx,by-5,hi+(int(200+pulse*55),),int(4+pulse))
 
     elif body_anim == "time_warp":
@@ -915,29 +924,29 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
                 for a_deg in range(0,360,10):
                     a=math.radians(a_deg+ring*45)
                     ox=bx+math.cos(a)*r2; oy=by+math.sin(a)*r2*0.5
-                    if on(ox,oy): dot(ox,oy,pt+(alpha,),1)
+                    if on_body(ox,oy): dot(ox,oy,pt+(alpha,),1)
                     ox2=bx+math.cos(a+0.1)*r2; oy2=by+math.sin(a+0.1)*r2*0.5
-                    if on(ox2,oy2): dot(ox2,oy2,hi+(int(alpha*0.5),),1)
+                    if on_body(ox2,oy2): dot(ox2,oy2,hi+(int(alpha*0.5),),1)
 
     elif body_anim == "shadow_clone":
         offset=int(math.sin(t_norm*math.pi*2)*12)
         for dy2 in range(-25,25,3):
             for dx2 in range(-bw//3,bw//3,4):
-                if on(bx+dx2+offset,by+dy2):
+                if on_body(bx+dx2+offset,by+dy2):
                     dot(bx+dx2+offset,by+dy2,(int(ac[0]*0.3),int(ac[1]*0.3),int(ac[2]*0.3),int(60+pulse*40)),1)
 
     elif body_anim == "rune_circle":
         for i in range(8):
             angle=(i/8)*math.pi*2+t_norm*math.pi
             ox=bx+math.cos(angle)*(bw//2-6); oy=by+math.sin(angle)*(bw//2-6)*0.45
-            if on(ox,oy):
+            if on_body(ox,oy):
                 bright=int(120+120*math.sin(angle+t_norm*math.pi*2))
                 draw.polygon([int(ox),int(oy)-5,int(ox)+4,int(oy),int(ox),int(oy)+5,int(ox)-4,int(oy)],fill=ac+(bright,))
                 dot(ox,oy,hi+(int(bright*0.7),),1)
         for a_deg in range(0,360,5):
             a=math.radians(a_deg+t_norm*180)
             ox=bx+math.cos(a)*(bw//2-4); oy=by+math.sin(a)*(bw//2-4)*0.45
-            if on(ox,oy): dot(ox,oy,pt+(int(60+pulse*60),),1)
+            if on_body(ox,oy): dot(ox,oy,pt+(int(60+pulse*60),),1)
 
     elif body_anim == "phoenix_rise":
         for i in range(6):
@@ -959,7 +968,7 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
             cx2=bx-bw//2+int(t2*bw); cy2=by-25+int(t2*50)
             for j in range(8):
                 tx=cx2-j*2; ty=cy2-j
-                if on(tx,ty): dot(tx,ty,hi+(int(200-j*20),),int(3-j//3))
+                if on_body(tx,ty): dot(tx,ty,hi+(int(200-j*20),),int(3-j//3))
 
     elif body_anim == "frost_breath":
         for i in range(6):
@@ -1018,7 +1027,7 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
             angle=(i/10)*math.pi*2+t_norm*math.pi*1.5
             dist=bw//3+int(math.sin(t_norm*math.pi*2+i*0.6)*12)
             ox=bx+math.cos(angle)*dist; oy=by+math.sin(angle)*dist*0.5
-            if on(ox,oy):
+            if on_body(ox,oy):
                 draw.ellipse([int(ox)-4,int(oy)-4,int(ox)+4,int(oy)+4],fill=(0,0,0,int(160+pulse*60)))
                 dot(ox,oy,pt+(int(80+pulse*100),),2)
 
@@ -1030,13 +1039,13 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
                 for a_deg in range(0,360,8):
                     a=math.radians(a_deg)
                     ox=bx+math.cos(a)*r2; oy=by+math.sin(a)*r2*0.45
-                    if on(ox,oy): dot(ox,oy,(100,180,255,alpha),1)
+                    if on_body(ox,oy): dot(ox,oy,(100,180,255,alpha),1)
 
     elif body_anim == "star_field":
         for i in range(12):
             sx2=bx-bw//2+int((i*37+frame_idx*2)%bw)
             sy2=by-25+int((i*19+frame_idx)%50)
-            if on(sx2,sy2):
+            if on_body(sx2,sy2):
                 bright=int(100+120*math.sin(t_norm*math.pi*2+i*0.8))
                 dot(sx2,sy2,(255,255,200,bright),int(1+pulse*(i%3==0)))
 

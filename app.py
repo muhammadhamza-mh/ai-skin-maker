@@ -118,7 +118,7 @@ select:focus,input:focus{border-color:#7030e0}
     <!-- Category: Body -->
     <div class="cat-header" onclick="toggleCat('cat_body')">🧍 Body</div>
     <div id="cat_body">
-      <div class="toggle-item active" id="ti_body" onclick="toggleAnim('body')"><span class="ico">✨</span><span class="lbl">Body FX</span><div class="toggle-switch on" id="sw_body"></div></div>
+      <div class="toggle-item active" id="ti_body" style="display:none"><span class="ico">✨</span><span class="lbl">Body FX</span><div class="toggle-switch on" id="sw_body"></div></div>
       <div class="toggle-item active" id="ti_robe" onclick="toggleAnim('robe')"><span class="ico">🌟</span><span class="lbl">Robe & Trim</span><div class="toggle-switch on" id="sw_robe"></div></div>
       <div class="toggle-item active" id="ti_blood" onclick="toggleAnim('blood')"><span class="ico">🩸</span><span class="lbl">Blood Drip</span><div class="toggle-switch on" id="sw_blood"></div></div>
       <div class="toggle-item active" id="ti_smoke" onclick="toggleAnim('smoke')"><span class="ico">💨</span><span class="lbl">Smoke Tendrils</span><div class="toggle-switch on" id="sw_smoke"></div></div>
@@ -142,7 +142,7 @@ select:focus,input:focus{border-color:#7030e0}
       <div class="toggle-item active" id="ti_meteor" onclick="toggleAnim('meteor')"><span class="ico">☄️</span><span class="lbl">Meteor Shower</span><div class="toggle-switch on" id="sw_meteor"></div></div>
       <div class="toggle-item active" id="ti_iceshatter" onclick="toggleAnim('iceshatter')"><span class="ico">🧊</span><span class="lbl">Ice Shatter</span><div class="toggle-switch on" id="sw_iceshatter"></div></div>
       <div class="toggle-item active" id="ti_darktendrils" onclick="toggleAnim('darktendrils')"><span class="ico">🖤</span><span class="lbl">Dark Tendrils</span><div class="toggle-switch on" id="sw_darktendrils"></div></div>
-      <div class="toggle-item active" id="ti_neonpulse" onclick="toggleAnim('neonpulse')"><span class="ico">💜</span><span class="lbl">Neon Pulse</span><div class="toggle-switch on" id="sw_neonpulse"></div></div>
+      <div class="toggle-item active" id="ti_neonpulse" style="display:none"><span class="ico">💜</span><span class="lbl">Neon Pulse</span><div class="toggle-switch on" id="sw_neonpulse"></div></div>
       <div class="toggle-item active" id="ti_feather" onclick="toggleAnim('feather')"><span class="ico">🪶</span><span class="lbl">Feather Fall</span><div class="toggle-switch on" id="sw_feather"></div></div>
       <div class="toggle-item active" id="ti_magma" onclick="toggleAnim('magma')"><span class="ico">🌋</span><span class="lbl">Magma Flow</span><div class="toggle-switch on" id="sw_magma"></div></div>
       <div class="toggle-item active" id="ti_soulorbs" onclick="toggleAnim('soulorbs')"><span class="ico">🔮</span><span class="lbl">Soul Orbs</span><div class="toggle-switch on" id="sw_soulorbs"></div></div>
@@ -158,7 +158,7 @@ select:focus,input:focus{border-color:#7030e0}
       <div class="toggle-item active" id="ti_darkmatter" onclick="toggleAnim('darkmatter')"><span class="ico">🌑</span><span class="lbl">Dark Matter</span><div class="toggle-switch on" id="sw_darkmatter"></div></div>
       <div class="toggle-item active" id="ti_waterripple" onclick="toggleAnim('waterripple')"><span class="ico">💧</span><span class="lbl">Water Ripple</span><div class="toggle-switch on" id="sw_waterripple"></div></div>
       <div class="toggle-item active" id="ti_starfield" onclick="toggleAnim('starfield')"><span class="ico">⭐</span><span class="lbl">Star Field</span><div class="toggle-switch on" id="sw_starfield"></div></div>
-      <div class="toggle-item active" id="ti_gravity" onclick="toggleAnim('gravity')"><span class="ico">🌀</span><span class="lbl">Gravity Well</span><div class="toggle-switch on" id="sw_gravity"></div></div>
+      <div class="toggle-item active" id="ti_gravity" style="display:none"><span class="ico">🌀</span><span class="lbl">Gravity Well</span><div class="toggle-switch on" id="sw_gravity"></div></div>
       <div class="toggle-item active" id="ti_timewarp" onclick="toggleAnim('timewarp')"><span class="ico">⏳</span><span class="lbl">Time Warp</span><div class="toggle-switch on" id="sw_timewarp"></div></div>
       <div class="toggle-item active" id="ti_shadowclone" onclick="toggleAnim('shadowclone')"><span class="ico">👤</span><span class="lbl">Shadow Clone</span><div class="toggle-switch on" id="sw_shadowclone"></div></div>
       <div class="toggle-item active" id="ti_runecircle" onclick="toggleAnim('runecircle')"><span class="ico">🔯</span><span class="lbl">Rune Circle</span><div class="toggle-switch on" id="sw_runecircle"></div></div>
@@ -280,7 +280,7 @@ select:focus,input:focus{border-color:#7030e0}
 let curId=null, hist=[], intervals={};
 let baseFrames={}, overlayFrames={};
 let baseImgs={}, overlayImgs={};
-let enabledGroups=new Set(['head','eyes','body','scythe','robe','shape']);
+let enabledGroups=new Set(['head','eyes','scythe','robe','shape']); // body/neonpulse/gravity hidden - create face particles
 let pingpong=false;
 let activeBorder='';
 let mergedBorder=null; // {b1,b2} when merge active
