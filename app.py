@@ -287,7 +287,8 @@ let mergedBorder=null; // {b1,b2} when merge active
 const GROUPS=['head','eyes','body','scythe','robe','shape','aurora','hellfire','crystal','lightning','smoke','blood','sand','wisps','meteor','iceshatter','darktendrils','neonpulse','feather','magma','soulorbs','pixelglitch','chainlightning','divinelight','gravity','timewarp','shadowclone','runecircle','phoenixrise','comet','frostbreath','vinegrow','electricarc','sandstorm','inksplash','holylight','darkmatter','waterripple','starfield'];
 const ANIMS=['attack','flying','idle'];
 const FPS={attack:12,flying:6,idle:6};
-let speedMult=1.0; // 1=normal, 2=half speed, 0.5=double speed
+let speedMult=1.0;
+let overlayIdxs={};
 
 // Theme data from server
 const THEME_DATA = {
@@ -418,7 +419,9 @@ function compositeFrame(anim, idx){
   ctx.drawImage(base,0,0);
   GROUPS.forEach(g=>{
     if(!enabledGroups.has(g)) return;
-    const ov=overlayImgs[g]&&overlayImgs[g][anim]&&overlayImgs[g][anim][idx];
+    // Use overlayIdxs for overlay groups (speed-controlled), base idx for base
+    const ovIdx = (overlayIdxs[anim]||0) % Math.max((overlayImgs[g]&&overlayImgs[g][anim]&&overlayImgs[g][anim].length)||1, 1);
+    const ov=overlayImgs[g]&&overlayImgs[g][anim]&&overlayImgs[g][anim][ovIdx];
     if(ov) ctx.drawImage(ov,0,0);
   });
   // Apply border overlay(s)
@@ -493,10 +496,11 @@ let animDirs={attack:1,flying:1,idle:1};
 function startAnims(){
   Object.values(intervals).forEach(clearInterval); intervals={};
   ANIMS.forEach(anim=>{
-    animIdxs[anim]=0; animDirs[anim]=1;
     const n=baseFrames[anim]?baseFrames[anim].length:0;
     if(n===0) return;
-    intervals[anim]=setInterval(()=>{
+    animIdxs[anim]=0; animDirs[anim]=1; overlayIdxs[anim]=0;
+    // Base frames: fixed FPS always
+    intervals['base_'+anim]=setInterval(()=>{
       const pp=pingpong && anim!=='attack';
       if(pp){
         animIdxs[anim]+=animDirs[anim];
@@ -506,10 +510,14 @@ function startAnims(){
         animIdxs[anim]=(animIdxs[anim]+1)%n;
       }
       drawBig(anim,animIdxs[anim]);
-      // Update strip active
       const strip=document.getElementById('strip_'+anim);
       if(strip) strip.querySelectorAll('canvas').forEach((c,i)=>c.classList.toggle('active',i===animIdxs[anim]));
-    }, Math.round(1000/FPS[anim]*speedMult));
+    }, Math.round(1000/FPS[anim]));
+    // Overlay animations: speed controlled by speedMult
+    intervals['ov_'+anim]=setInterval(()=>{
+      overlayIdxs[anim]=(overlayIdxs[anim]+1)%Math.max(n,1);
+      drawBig(anim,animIdxs[anim]); // redraw with new overlay frame
+    }, Math.round(1000/FPS[anim]/speedMult));
   });
 }
 
@@ -528,7 +536,16 @@ function toggleAnim(group){
 function setSpeed(val){
   speedMult=parseFloat(val);
   document.getElementById('speedVal').textContent=speedMult===1?'Normal':speedMult>1?'Slow '+speedMult+'x':'Fast '+Math.round(1/speedMult)+'x';
-  if(curId) startAnims();
+  if(!curId) return;
+  // Restart only overlay intervals at new speed, base frames unchanged
+  ANIMS.forEach(anim=>{
+    if(intervals['ov_'+anim]) clearInterval(intervals['ov_'+anim]);
+    const n=baseFrames[anim]?baseFrames[anim].length:1;
+    intervals['ov_'+anim]=setInterval(()=>{
+      overlayIdxs[anim]=(overlayIdxs[anim]+1)%n;
+      drawBig(anim,animIdxs[anim]);
+    }, Math.round(1000/FPS[anim]/speedMult));
+  });
 }
 
 function togglePP(){
