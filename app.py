@@ -83,7 +83,7 @@ select:focus,input:focus{border-color:#7030e0}
 <header>
   <div>
     <h1>⚔️ AI GrimReaper Skin Maker <span style="font-size:0.65rem;background:#2a1a4a;color:#a080d0;padding:2px 7px;border-radius:10px;margin-left:6px;-webkit-text-fill-color:#a080d0">v1.02</span></h1>
-    <p>31 themes · Unique eye styles · Weapons · Real-time animation toggles</p>
+    <p>34 themes · Unique eye styles · Weapons · Real-time animation toggles</p>
   </div>
 </header>
 <div class="layout">

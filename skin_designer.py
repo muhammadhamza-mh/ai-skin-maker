@@ -48,6 +48,10 @@ THEMES = [
     {"name":"Obsidian",  "style":"armor",   "weapon":"sword",   "head_anim":"void_spiral", "body_anim":"void_orbs",    "hd":(8,8,10),    "hl":(25,25,35),   "bd":(10,10,14),  "bl":(40,40,60),   "rd":(6,6,8),     "rl":(20,20,30),   "ac":(80,80,120), "hi":(160,160,200),"s":(60,60,80),   "pt":(100,100,160),"fl":(120,120,180)},
     {"name":"Sunrise",   "style":"royal",   "weapon":"staff",   "head_anim":"gold_crown",  "body_anim":"coin_sparkle", "hd":(80,20,0),   "hl":(220,80,0),   "bd":(100,30,0),  "bl":(255,140,0),  "rd":(60,15,0),   "rl":(255,200,50), "ac":(255,160,0), "hi":(255,230,100),"s":(200,130,80), "pt":(255,120,0),  "fl":(255,200,50)},
     {"name":"Midnight",  "style":"ninja",   "weapon":"katana",  "head_anim":"neon_ring",   "body_anim":"circuit_lines","hd":(5,5,20),    "hl":(20,20,60),   "bd":(8,8,25),    "bl":(30,30,80),   "rd":(4,4,15),    "rl":(15,15,50),   "ac":(60,60,180), "hi":(120,120,255),"s":(60,60,100),  "pt":(80,80,220),  "fl":(100,100,240)},
+    # ── v1.02 Themes ──
+    {"name":"Aurora",    "style":"royal",   "weapon":"staff",   "head_anim":"star_crown",  "body_anim":"aurora_wave",  "hd":(0,20,40),   "hl":(0,180,160),  "bd":(0,30,55),   "bl":(0,220,200),  "rd":(0,15,35),   "rl":(80,255,220), "ac":(0,255,200), "hi":(180,255,240),"s":(80,180,160), "pt":(0,220,180),  "fl":(100,255,220)},
+    {"name":"Infernal",  "style":"armor",   "weapon":"trident", "head_anim":"fire_crown",  "body_anim":"hellfire_rise","hd":(50,0,0),    "hl":(180,0,0),    "bd":(70,5,0),    "bl":(220,20,0),   "rd":(35,0,0),    "rl":(160,0,0),    "ac":(255,40,0),  "hi":(255,160,0),  "s":(160,70,40),  "pt":(255,20,0),   "fl":(255,100,0)},
+    {"name":"Crystal",   "style":"suit",    "weapon":"sword",   "head_anim":"ice_crown",   "body_anim":"crystal_shards","hd":(20,30,50),  "hl":(140,180,220),"bd":(25,40,65),  "bl":(180,210,240),"rd":(15,25,45),  "rl":(220,235,255),"ac":(160,200,255),"hi":(240,248,255),"s":(160,185,210),"pt":(130,180,255),"fl":(200,230,255)},
 ]
 
 # Exact per-frame data extracted from pixel analysis
@@ -679,6 +683,79 @@ def draw_body_anim(draw, mask, bx, by, bw, botx, boty, botw, body_anim,
             if on(ox, oy):
                 dot(ox, oy, ac+(int(160+60*math.sin(angle),),), int(2+pulse))
                 dot(ox+2, oy-2, hi+(120,), 1)
+
+    elif body_anim == "aurora_wave":
+        # Northern lights — horizontal bands of color sweeping up the body
+        colors = [ac, hi, pt, fl, (255,255,255)]
+        for band in range(5):
+            phase = (t_norm + band/5) % 1.0
+            wave_y = int(boty - phase * (boty - (by - 30)))
+            width = int(bw * 0.6 * math.sin(phase * math.pi))
+            for dx2 in range(-width//2, width//2, 2):
+                c = colors[band % len(colors)]
+                alpha = int(180 * math.sin(phase * math.pi))
+                if on(bx+dx2, wave_y):
+                    dot(bx+dx2, wave_y, c+(alpha,), 2)
+        # Shimmer dots
+        for i in range(8):
+            angle = (i/8)*math.pi*2 + t_norm*math.pi*3
+            ox = bx + math.cos(angle)*bw//3
+            oy = by + math.sin(angle)*22
+            if on(ox, oy):
+                dot(ox, oy, hi+(int(100+pulse*120),), int(1+pulse))
+
+    elif body_anim == "hellfire_rise":
+        # Hellfire columns rising from robe bottom
+        for i in range(6):
+            col_x = botx - botw//3 + i*(botw*2//3//5)
+            height = int(20 + math.sin(t_norm*math.pi*2 + i*1.1)*12)
+            for dy2 in range(height):
+                t = dy2/height
+                c = (int(255*(1-t*0.3)), int(40+80*t), 0)
+                if on(col_x, boty-dy2):
+                    dot(col_x, boty-dy2, c+(int(200-t*80),), int(2-t))
+            # Ember sparks
+            spark_rise = (frame_idx*(3+i)*4 + i*17) % 40
+            if on(col_x, boty-height-spark_rise):
+                dot(col_x, boty-height-spark_rise, pt+(int(200-spark_rise*4),), 2)
+        # Ground fire glow
+        for dx2 in range(-botw//2, botw//2, 3):
+            wave = int(3*math.sin(dx2*0.3+t_norm*math.pi*4))
+            if on(botx+dx2, boty+wave):
+                dot(botx+dx2, boty+wave, ac+(int(120+pulse*80),), 2)
+
+    elif body_anim == "crystal_shards":
+        # Floating crystal shards orbiting body
+        for i in range(6):
+            angle = (i/6)*math.pi*2 + t_norm*math.pi*1.5
+            dist = bw//3 + int(math.sin(t_norm*math.pi*2+i)*6)
+            ox = bx + math.cos(angle)*dist
+            oy = by + math.sin(angle)*20
+            if on(ox, oy):
+                # Diamond shape
+                r = int(3+pulse*2)
+                draw.polygon([int(ox),int(oy)-r, int(ox)+r,int(oy), int(ox),int(oy)+r, int(ox)-r,int(oy)],
+                             fill=hi+(int(180+pulse*60),))
+                dot(ox, oy, (255,255,255,int(120+pulse*80)), 1)
+        # Ice crack lines on body
+        for i in range(3):
+            cx2 = bx - bw//4 + i*(bw//3)
+            cy2 = by - 10 + i*8
+            crack_len = int(10+pulse*5)
+            angle = math.radians(60+i*30)
+            for j in range(crack_len):
+                kx = cx2 + math.cos(angle)*j
+                ky = cy2 + math.sin(angle)*j
+                if on(kx, ky):
+                    t = j/crack_len
+                    dot(kx, ky, hi+(int(160-t*60),), 1)
+        # Frost sparkles
+        for i in range(5):
+            a = (i/5)*math.pi*2 + t_norm*math.pi*2
+            fx2 = bx + math.cos(a)*bw//4
+            fy2 = by + math.sin(a)*14
+            if on(fx2, fy2):
+                dot(fx2, fy2, (220,240,255,int(140+pulse*80)), int(2+pulse))
 
 
 
